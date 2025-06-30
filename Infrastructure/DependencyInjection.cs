@@ -1,11 +1,13 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Infrastructure.Services
+namespace Infrastructure
 {
     public static class DependencyInjection
     {
@@ -17,6 +19,9 @@ namespace Infrastructure.Services
             {
                 opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddIdentityCore<AppUser>(options =>
             {

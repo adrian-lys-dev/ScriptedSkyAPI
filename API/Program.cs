@@ -1,6 +1,6 @@
 using Core.Entities;
+using Infrastructure;
 using Infrastructure.Data;
-using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

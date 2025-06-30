@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Infrastructure.Services
 {
@@ -25,6 +26,12 @@ namespace Infrastructure.Services
                 options.Password.RequiredLength = 6;
             })
             .AddEntityFrameworkStores<StoreContext>();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
 
             return services;
         }

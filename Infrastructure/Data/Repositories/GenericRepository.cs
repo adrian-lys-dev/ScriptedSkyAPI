@@ -16,10 +16,6 @@ namespace Infrastructure.Data.Repositories
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await context.SaveChangesAsync() > 0;
-        }
         public void Add(T entity)
         {
             context.Set<T>().Add(entity);

@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Entities;
 using Infrastructure;
 using Infrastructure.Data;
@@ -22,6 +23,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseSerilogRequestLogging();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>();

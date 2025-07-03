@@ -1,6 +1,5 @@
 ﻿using API.Dtos.FilteringDtos;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace API.Controllers
 {

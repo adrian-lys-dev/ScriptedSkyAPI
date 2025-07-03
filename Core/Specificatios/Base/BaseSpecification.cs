@@ -1,7 +1,7 @@
 ﻿using Core.Interfaces;
 using System.Linq.Expressions;
 
-namespace Core.Specificatios
+namespace Core.Specificatios.Base
 {
     public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecification<T>
     {

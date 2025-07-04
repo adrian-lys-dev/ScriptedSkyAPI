@@ -2,10 +2,12 @@
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using StackExchange.Redis;
 
 namespace Infrastructure
 {
@@ -22,6 +24,14 @@ namespace Infrastructure
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IConnectionMultiplexer>(config =>
+            {
+                var redisConnectionString = configuration.GetConnectionString("Redis")
+                    ?? throw new InvalidOperationException("Cannot get redis connection string");
+                var redisConfiguration = ConfigurationOptions.Parse(redisConnectionString, true);
+                return ConnectionMultiplexer.Connect(redisConfiguration);
+            });
+            services.AddSingleton<ICartService, CartService>();
 
             services.AddIdentityCore<AppUser>(options =>
             {

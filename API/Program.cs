@@ -27,7 +27,7 @@ app.UseSerilogRequestLogging();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
-app.MapGroup("api").MapIdentityApi<AppUser>();
+app.MapGroup("api").MapIdentityApi<AppUser>(); // api/
 
 try
 {

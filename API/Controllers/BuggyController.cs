@@ -1,5 +1,7 @@
 ﻿using API.Dtos.FilteringDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -38,6 +40,16 @@ namespace API.Controllers
         public IActionResult GetValidationError([FromForm] FilteringDto test)
         {
             return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("secret")]
+        public IActionResult GetSecret()
+        {
+            var name = User.FindFirst(ClaimTypes.Name)?.Value;
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return Ok("Hello " + name + " with id of " + id);
         }
     }
 }

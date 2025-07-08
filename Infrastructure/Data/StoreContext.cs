@@ -12,6 +12,7 @@ namespace Infrastructure.Data
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Author> Author { get; set; }
         public DbSet<Publisher> Publisher { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethod { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +22,7 @@ namespace Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(typeof(GenreConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(AuthorConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(PublisherConfiguration).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(DeliveryMethodConfiguration).Assembly);
 
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

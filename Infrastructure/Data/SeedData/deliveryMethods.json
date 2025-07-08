@@ -1,0 +1,20 @@
+[
+  {
+    "ShortName": "Standard",
+    "DeliveryTime": "5-10 business days",
+    "Description": "Standard delivery within 5 to 10 working days.",
+    "Price": 5.99
+  },
+  {
+    "ShortName": "Express",
+    "DeliveryTime": "3-5 business days",
+    "Description": "Fast delivery in 3 to 5 working days.",
+    "Price": 12.99
+  },
+  {
+    "ShortName": "Free",
+    "DeliveryTime": "As soon as you arrive",
+    "Description": "Once you arrive, pick up your order from our store yourself.",
+    "Price": 0.00
+  }
+]

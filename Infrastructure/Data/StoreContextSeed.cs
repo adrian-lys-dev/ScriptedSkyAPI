@@ -90,6 +90,16 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
+            if (!context.DeliveryMethod.Any())
+            {
+                var deliveryData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/deliveryMethods.json");
+                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                if (deliveries == null) return;
+
+                context.DeliveryMethod.AddRange(deliveries);
+                await context.SaveChangesAsync();
+            }
+
         }
 
     }

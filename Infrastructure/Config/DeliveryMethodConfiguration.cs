@@ -8,10 +8,20 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<DeliveryMethod> builder)
         {
-            builder.Property(p => p.ShortName).IsRequired().HasMaxLength(256);
-            builder.Property(p => p.DeliveryTime).IsRequired().HasMaxLength(256);
-            builder.Property(p => p.Description).IsRequired().HasColumnType("text");
-            builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            builder.Property(p => p.ShortName)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            builder.Property(p => p.DeliveryTime)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            builder.Property(p => p.Description)
+                .IsRequired()
+                .HasColumnType("text");
+
+            builder.Property(x => x.Price)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

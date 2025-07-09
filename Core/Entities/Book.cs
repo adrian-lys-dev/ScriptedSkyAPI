@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Base;
+using Core.Entities.OrderAggregate;
 
 namespace Core.Entities
 {
@@ -17,5 +18,6 @@ namespace Core.Entities
         public List<Author>? Author { get; set; }
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; } = null!;
+        public List<OrderItem> OrderItems { get; set; } = [];
     }
 }

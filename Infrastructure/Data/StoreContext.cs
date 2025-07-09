@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Entities.Base;
+using Core.Entities.OrderAggregate;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ namespace Infrastructure.Data
         public DbSet<Author> Author { get; set; }
         public DbSet<Publisher> Publisher { get; set; }
         public DbSet<DeliveryMethod> DeliveryMethod { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +26,8 @@ namespace Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(typeof(AuthorConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(PublisherConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(DeliveryMethodConfiguration).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
 
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

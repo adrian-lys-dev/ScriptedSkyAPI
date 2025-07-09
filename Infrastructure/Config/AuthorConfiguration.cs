@@ -8,10 +8,15 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<Author> builder)
         {
-            builder.Property(p => p.Id).IsRequired();
+            builder.Property(p => p.Id).
+                IsRequired();
 
-            builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
-            builder.HasIndex(p => p.Name).IsUnique();
+            builder.Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            builder.HasIndex(p => p.Name)
+                .IsUnique();
         }
     }
 }

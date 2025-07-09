@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Core.Entities.OrderAggregate;
+using Microsoft.AspNetCore.Identity;
 
 namespace Core.Entities
 {
@@ -6,5 +7,6 @@ namespace Core.Entities
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public List<Order> Order { get; set; } = [];
     }
 }

@@ -25,6 +25,22 @@ namespace API.Extensions
 
             return email;
         }
-    }
 
+        public static async Task<AppUser> GetUserAsync(this UserManager<AppUser> userManager, ClaimsPrincipal user)
+        {
+            var userId = user.GetUserId();
+            var appUser = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (appUser == null)
+                throw new AuthenticationException("User not found");
+
+            return appUser;
+        }
+
+        public static string GetUserId(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? throw new AuthenticationException("User ID claim not found");
+        }
+    }
 }

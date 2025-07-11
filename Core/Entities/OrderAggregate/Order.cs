@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Base;
+using System.Text.Json.Serialization;
 
 namespace Core.Entities.OrderAggregate
 {
@@ -8,9 +9,11 @@ namespace Core.Entities.OrderAggregate
         public required string ContactName { get; set; }
         public string? Adress {  get; set; }
         public DeliveryMethod DeliveryMethod { get; set; } = null!;
+        [JsonIgnore]
         public List<OrderItem> OrderItem { get; set; } = [];
         public decimal Subtotal { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        [JsonIgnore]
         public AppUser User { get; set; } = null!;
     }
 }

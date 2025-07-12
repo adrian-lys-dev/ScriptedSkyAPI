@@ -11,7 +11,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController(IUnitOfWork unit, ILogger<BuggyController> logger) : ControllerBase
+    public class BookController(IUnitOfWork unit, ILogger<BookController> logger) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetBooks([FromQuery] BookSpecParams bookSpecParams)

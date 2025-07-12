@@ -12,7 +12,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController(IUnitOfWork unit, ICartService cartService, ILogger<BuggyController> logger, SignInManager<AppUser> signInManager) : ControllerBase
+    public class OrderController(IUnitOfWork unit, ICartService cartService, ILogger<OrderController> logger, SignInManager<AppUser> signInManager) : ControllerBase
     {
         [HttpPost]
         public async Task<ActionResult<Order>> CreateOrder(CreateOrderDto createOrderDto)
@@ -141,7 +141,11 @@ namespace API.Controllers
         [HttpGet("delivery-methods")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {
-            return Ok(await unit.Repository<DeliveryMethod>().ListAllAsync());
+            logger.LogInformation("Requested list of delivery methods");
+            var deliveryMethods = await unit.Repository<DeliveryMethod>().ListAllAsync();
+
+            logger.LogInformation("Returned {Count} delivery methods", deliveryMethods.Count);
+            return Ok(deliveryMethods);
         }
     }
 }

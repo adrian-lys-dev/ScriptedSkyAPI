@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(SignInManager<AppUser> signInManager, ILogger<BuggyController> logger) : ControllerBase
+    public class AccountController(SignInManager<AppUser> signInManager, ILogger<AccountController> logger) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)

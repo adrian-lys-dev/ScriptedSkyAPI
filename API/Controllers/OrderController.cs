@@ -5,6 +5,7 @@ using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specificatios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace API.Controllers
     [ApiController]
     public class OrderController(IUnitOfWork unit, ICartService cartService, ILogger<OrderController> logger, SignInManager<AppUser> signInManager) : ControllerBase
     {
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Order>> CreateOrder(CreateOrderDto createOrderDto)
         {
@@ -100,6 +102,7 @@ namespace API.Controllers
             return BadRequest("Failed to create order");
         }
 
+        [Authorize]
         [HttpGet("get-orders-for-current-user")]
         public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrdersForUser()
         {
@@ -118,6 +121,7 @@ namespace API.Controllers
             return Ok(ordersToReturn);
         }
 
+        [Authorize]
         [HttpGet("get-order/{orderId}")]
         public async Task<ActionResult<OrderResponseDto>> GetOrder(int orderId)
         {
@@ -138,6 +142,7 @@ namespace API.Controllers
             return Ok(OrderMapper.ToDto(order));
         }
 
+        [Authorize]
         [HttpGet("delivery-methods")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {

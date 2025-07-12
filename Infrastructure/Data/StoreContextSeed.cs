@@ -1,13 +1,33 @@
 ﻿using Core.Entities;
 using Infrastructure.Data.SeedData.SeedDTOs;
+using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 
 namespace Infrastructure.Data
 {
     public static class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext context)
+        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            if (!await roleManager.RoleExistsAsync("Admin"))
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+            if (!await roleManager.RoleExistsAsync("User"))
+                await roleManager.CreateAsync(new IdentityRole("User"));
+
+            if (!userManager.Users.Any(x => x.UserName == "test"))
+            {
+                var user = new AppUser
+                {
+                    UserName = "test",
+                    Email = "test@test.com"
+                };
+
+                await userManager.CreateAsync(user, "test123");
+                await userManager.AddToRoleAsync(user, "User");
+            }
+
+
             if (!context.Author.Any())
             {
                 var authorsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/authors.json");

@@ -1,21 +1,29 @@
 ﻿using Core.Entities;
 using Infrastructure.Data.SeedData.SeedDTOs;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace Infrastructure.Data
 {
     public static class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ILogger logger)
         {
+
+            logger.LogInformation("Starting database seeding...");
+
+            await EnsureTriggersExistAsync(context, logger);
+
             if (!await roleManager.RoleExistsAsync("Admin"))
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
 
             if (!await roleManager.RoleExistsAsync("User"))
                 await roleManager.CreateAsync(new IdentityRole("User"));
 
-            if (!userManager.Users.Any(x => x.UserName == "test"))
+            if (!await userManager.Users.AnyAsync(x => x.UserName == "test"))
             {
                 var user = new AppUser
                 {
@@ -27,8 +35,21 @@ namespace Infrastructure.Data
                 await userManager.AddToRoleAsync(user, "User");
             }
 
+            if (!await userManager.Users.AnyAsync(x => x.UserName == "crazyReviewer"))
+            {
+                var user = new AppUser
+                {
+                    Id = "crazyReviewer-123",
+                    UserName = "crazyReviewer",
+                    Email = "crazyReviewer@test.com"
+                };
 
-            if (!context.Author.Any())
+                await userManager.CreateAsync(user, "test123");
+                await userManager.AddToRoleAsync(user, "User");
+            }
+
+
+            if (!await context.Author.AnyAsync())
             {
                 var authorsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/authors.json");
                 var authors = JsonSerializer.Deserialize<List<Author>>(authorsData);
@@ -38,7 +59,7 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
-            if (!context.Genre.Any())
+            if (!await context.Genre.AnyAsync())
             {
                 var genresData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/genres.json");
                 var genres = JsonSerializer.Deserialize<List<Genre>>(genresData);
@@ -48,7 +69,7 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
-            if (!context.Publisher.Any())
+            if (!await context.Publisher.AnyAsync())
             {
                 var publishersData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/publishers.json");
                 var publishers = JsonSerializer.Deserialize<List<Publisher>>(publishersData);
@@ -58,7 +79,7 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
-            if (!context.Book.Any())
+            if (!await context.Book.AnyAsync())
             {
                 var booksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/books.json");
                 var booksDto = JsonSerializer.Deserialize<List<BookDto>>(booksData);
@@ -110,7 +131,7 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
-            if (!context.DeliveryMethod.Any())
+            if (!await context.DeliveryMethod.AnyAsync())
             {
                 var deliveryData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/deliveryMethods.json");
                 var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
@@ -120,7 +141,70 @@ namespace Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
+            if (!await context.Review.AnyAsync())
+            {
+                var reviewData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/reviews.json");
+                var reviews = JsonSerializer.Deserialize<List<Review>>(reviewData);
+                if (reviews == null) return;
+
+                context.Review.AddRange(reviews);
+                await context.SaveChangesAsync();
+            }
+
+            logger.LogInformation("Database seeding completed.");
         }
 
+        private static async Task EnsureTriggersExistAsync(StoreContext context, ILogger logger)
+        {
+            logger.LogInformation("Checking triggers...");
+
+            var triggerDir = "../Infrastructure/Data/SeedData/TriggersSQL";
+
+            if (!Directory.Exists(triggerDir))
+            {
+                logger.LogWarning("Trigger directory not found: {TriggerDir}", triggerDir);
+                return;
+            }
+
+            var sqlFiles = Directory.GetFiles(triggerDir, "*.sql");
+
+            foreach (var file in sqlFiles)
+            {
+                var triggerName = Path.GetFileNameWithoutExtension(file);
+                logger.LogInformation("Checking trigger '{TriggerName}'...", triggerName);
+
+                var sqlBody = await File.ReadAllTextAsync(file);
+
+                var wrappedSql = $@"
+                    IF NOT EXISTS (
+                        SELECT * FROM sys.triggers WHERE name = N'{triggerName}'
+                    )
+                    BEGIN
+                        DECLARE @sql NVARCHAR(MAX);
+                        SET @sql = N'{sqlBody.Replace("'", "''")}';
+                        EXEC(@sql);
+                        PRINT 'Trigger {triggerName} created.';
+                    END
+                    ELSE
+                    BEGIN
+                        PRINT 'Trigger {triggerName} already exists.';
+                    END
+                ";
+
+                await context.Database.ExecuteSqlRawAsync(wrappedSql);
+
+                logger.LogInformation("Processed trigger '{TriggerName}'.", triggerName);
+            }
+
+            logger.LogInformation("Trigger check completed.");
+        }
     }
+
+    /// <summary>
+    /// Catergory looger for StoreContextSeed.
+    /// Used only for grouping logs.
+    /// </summary>
+    [SuppressMessage("SonarLint", "S2094", Justification = "Marker class for ILogger category")]
+    public class StoreContextSeedLoggerCategory { }
+
 }

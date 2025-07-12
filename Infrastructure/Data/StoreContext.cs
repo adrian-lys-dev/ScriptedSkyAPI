@@ -4,6 +4,7 @@ using Core.Entities.OrderAggregate;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Infrastructure.Data
 {
@@ -16,10 +17,14 @@ namespace Infrastructure.Data
         public DbSet<DeliveryMethod> DeliveryMethod { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Review> Review { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Review>()
+                .ToTable(tb => tb.HasTrigger("UpdateBookRating"));
 
             builder.ApplyConfigurationsFromAssembly(typeof(BookConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(GenreConfiguration).Assembly);
@@ -28,6 +33,7 @@ namespace Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(typeof(DeliveryMethodConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(ReviewConfiguration).Assembly);
 
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

@@ -19,5 +19,6 @@ namespace Core.Entities
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; } = null!;
         public List<OrderItem> OrderItems { get; set; } = [];
+        public List<Review> Reviews { get; set; } = [];
     }
 }

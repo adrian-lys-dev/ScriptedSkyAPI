@@ -1,0 +1,191 @@
+[
+  {
+    "ReviewText": "Absolutely loved this book! The story was gripping and the characters felt real.",
+    "Rating": 5,
+    "BookId": 1,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Great read, but I expected more plot twists.",
+    "Rating": 4,
+    "BookId": 1,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "The ending was a bit disappointing, but overall enjoyable.",
+    "Rating": 3,
+    "BookId": 1,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Interesting plot but the pacing was a bit slow in the middle chapters.",
+    "Rating": 3,
+    "BookId": 2,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Characters were well-developed and engaging.",
+    "Rating": 4,
+    "BookId": 2,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Not my favorite, but had some good moments.",
+    "Rating": 2,
+    "BookId": 2,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "A masterpiece! Couldn’t put it down until the last page.",
+    "Rating": 5,
+    "BookId": 3,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Beautifully written with vivid descriptions.",
+    "Rating": 5,
+    "BookId": 3,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Plot was a bit predictable but still enjoyable.",
+    "Rating": 4,
+    "BookId": 3,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Not my cup of tea. Found the writing style confusing at times.",
+    "Rating": 2,
+    "BookId": 4,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Some parts were interesting, but overall it dragged.",
+    "Rating": 3,
+    "BookId": 4,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Could have been better with more character development.",
+    "Rating": 2,
+    "BookId": 4,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Well-written and thought-provoking, highly recommend it.",
+    "Rating": 4,
+    "BookId": 5,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Enjoyed the themes and style a lot.",
+    "Rating": 4,
+    "BookId": 5,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A bit slow in places but worth the read.",
+    "Rating": 3,
+    "BookId": 5,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Decent read but lacked character development.",
+    "Rating": 3,
+    "BookId": 6,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Interesting ideas but execution was weak.",
+    "Rating": 2,
+    "BookId": 6,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Enjoyed some parts but overall mediocre.",
+    "Rating": 3,
+    "BookId": 6,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "An engaging story with great world-building.",
+    "Rating": 4,
+    "BookId": 7,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Loved the atmosphere and the lore.",
+    "Rating": 5,
+    "BookId": 7,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A bit slow in the middle but picked up later.",
+    "Rating": 3,
+    "BookId": 7,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Too predictable and clichéd for my taste.",
+    "Rating": 2,
+    "BookId": 8,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Some enjoyable moments but overall disappointing.",
+    "Rating": 2,
+    "BookId": 8,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Would not recommend unless you like clichés.",
+    "Rating": 1,
+    "BookId": 8,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Fantastic read with memorable characters.",
+    "Rating": 5,
+    "BookId": 9,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Loved the plot twists and writing style.",
+    "Rating": 5,
+    "BookId": 9,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A solid read, highly recommended.",
+    "Rating": 4,
+    "BookId": 9,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Good story but the ending felt rushed.",
+    "Rating": 3,
+    "BookId": 10,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Interesting concept but execution lacked depth.",
+    "Rating": 3,
+    "BookId": 10,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Enjoyed it overall, but some parts felt incomplete.",
+    "Rating": 4,
+    "BookId": 10,
+    "UserId": "crazyReviewer-123"
+  }
+]

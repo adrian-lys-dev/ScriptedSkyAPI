@@ -37,8 +37,10 @@ try
     var context = services.GetRequiredService<StoreContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var logger = app.Services.GetRequiredService<ILogger<StoreContextSeedLoggerCategory>>();
+
     await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context, userManager, roleManager);
+    await StoreContextSeed.SeedAsync(context, userManager, roleManager, logger);
 }
 catch (Exception ex)
 {

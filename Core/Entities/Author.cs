@@ -7,6 +7,6 @@ namespace Core.Entities
     {
         public required string Name { get; set; }
         [JsonIgnore]
-        public List<Book>? Book { get; set; }
+        public List<Book> Book { get; set; } = [];
     }
 }

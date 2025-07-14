@@ -14,8 +14,8 @@ namespace Core.Entities
         public decimal Price { get; set; }
         public required string ISBN { get; set; }
         public int QuantityInStock { get; set; }
-        public List<Genre>? Genre { get; set; }
-        public List<Author>? Author { get; set; }
+        public List<Genre> Genre { get; set; } = [];
+        public List<Author> Author { get; set; } = [];
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; } = null!;
         public List<OrderItem> OrderItems { get; set; } = [];

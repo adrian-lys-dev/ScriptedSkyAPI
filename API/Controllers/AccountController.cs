@@ -66,6 +66,7 @@ namespace API.Controllers
 
             return Ok(new
             {
+                user.Id,
                 user.FirstName,
                 user.LastName,
                 user.Email,

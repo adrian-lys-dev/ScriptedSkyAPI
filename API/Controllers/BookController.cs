@@ -20,7 +20,7 @@ namespace API.Controllers
 
             var spec = new BookCatalogSpecification(bookSpecParams);
             var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
-            var count = await unit.Repository<Book>().CountAsync(spec);
+            var count = await unit.Repository<Book>().CountSpecAsync(spec);
             var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
 
             var pagination = new Pagination<CatalogBookDto>(bookSpecParams.PageIndex, bookSpecParams.PageSize, count, booksDto);

@@ -42,5 +42,12 @@ namespace API.Extensions
             return user.FindFirstValue(ClaimTypes.NameIdentifier)
                 ?? throw new AuthenticationException("User ID claim not found");
         }
+
+        public static string GetUserRole(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Role)
+                ?? throw new AuthenticationException("User role claim not found");
+        }
+
     }
 }

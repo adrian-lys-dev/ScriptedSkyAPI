@@ -52,7 +52,7 @@ namespace Infrastructure.Data.Repositories
             return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsQueryable(), spec);
         }
 
-        public async Task<int> CountAsync(ISpecification<T> spec)
+        public async Task<int> CountSpecAsync(ISpecification<T> spec)
         {
             var query = context.Set<T>().AsQueryable();
 

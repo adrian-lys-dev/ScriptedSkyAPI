@@ -33,6 +33,7 @@ namespace Infrastructure
                 return ConnectionMultiplexer.Connect(redisConfiguration);
             });
             services.AddSingleton<ICartService, CartService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddIdentityCore<AppUser>(options =>
             {

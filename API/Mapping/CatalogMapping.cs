@@ -38,7 +38,17 @@ namespace API.Mapping
                 QuantityInStock = book.QuantityInStock,
                 Genre = book.Genre,
                 Author = book.Author,
-                Publisher = book.Publisher
+                Publisher = book.Publisher,
+                Reviews = book.Reviews.Select(r => new SBReviewDto
+                {
+                    Id = r.Id,
+                    ReviewText = r.ReviewText,
+                    Rating = r.Rating,
+                    UserId = r.UserId,
+                    UserName = r.AppUser.UserName!,
+                    CreatedAt = r.CreatedAt,
+                    UpdatedAt = r.UpdatedAt
+                }).ToList()
             };
         }
 

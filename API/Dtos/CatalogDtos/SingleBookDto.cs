@@ -14,9 +14,9 @@ namespace API.Dtos.CatalogDtos
         public decimal Price { get; set; }
         public required string ISBN { get; set; }
         public int QuantityInStock { get; set; }
-        public List<Genre>? Genre { get; set; }
-        public List<Author>? Author { get; set; }
+        public List<Genre> Genre { get; set; } = [];
+        public List<Author> Author { get; set; } = [];
         public Publisher Publisher { get; set; } = null!;
-
+        public List<SBReviewDto> Reviews { get; set; } = [];
     }
 }

@@ -10,7 +10,7 @@ namespace Core.Specificatios
             AddInclude(p => p.Author);
             AddInclude(p => p.Genre);
             AddInclude(p => p.Publisher);
-            AddInclude(p => p.Reviews);
+            AddInclude("Reviews.AppUser");
         }
     }
 }

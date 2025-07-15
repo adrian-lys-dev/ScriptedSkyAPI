@@ -48,5 +48,30 @@ namespace API.Controllers
             return result;
         }
 
+        [HttpGet("rating-top")]
+        public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetTopBooks()
+        {
+            logger.LogInformation("Fetching top rated books");
+
+            var spec = new TopRatedBooksSpecification();
+            var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
+            var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
+
+            logger.LogInformation("Fetched {Count} top rated books", booksDto.Count);
+
+            return Ok(booksDto);
+        }
+
+        [HttpGet("newest")]
+        public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetNewestBooks()
+        {
+            logger.LogInformation("Fetching newest books");
+
+            var spec = new NewestBooksSpecification();
+            var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
+            var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
+
+            return Ok(booksDto);
+        }
     }
 }

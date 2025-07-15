@@ -22,6 +22,13 @@ namespace Core.Specificatios.Base
 
         public List<string> IncludeStrings { get; } = [];
 
+        public int? Limit { get; private set; }
+
+        protected void ApplyLimit(int count)
+        {
+            Limit = count;
+        }
+
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);

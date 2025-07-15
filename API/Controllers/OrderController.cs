@@ -1,10 +1,12 @@
 ﻿using API.Dtos.OrderDtos;
 using API.Extensions;
 using API.Mapping;
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specificatios;
+using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -104,21 +106,22 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("get-orders-for-current-user")]
-        public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrdersForUser()
+        public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrdersForUser([FromQuery] PaginationParams paginationParams)
         {
             var userId = User.GetUserId();
 
             logger.LogInformation("User {UserId} requested their orders", userId);
 
-            var spec = new OrderSpecification(userId);
-
+            var spec = new OrderSpecification(userId, paginationParams);
             var orders = await unit.Repository<Order>().ListWithSpecAsync(spec);
-
+            var count = await unit.Repository<Order>().CountSpecAsync(spec);
             var ordersToReturn = orders.Select(order => OrderMapper.ToDto(order)).ToList();
 
-            logger.LogInformation("Returned {Count} orders for user {UserId}", ordersToReturn.Count, userId);
+            var pagination = new Pagination<OrderResponseDto>(paginationParams.PageIndex, paginationParams.PageSize, count, ordersToReturn);
 
-            return Ok(ordersToReturn);
+            logger.LogInformation("Fetched {Count} books for page {PageIndex}, user {UserId}", ordersToReturn.Count, paginationParams.PageIndex, userId);
+
+            return Ok(pagination);
         }
 
         [Authorize]
@@ -151,6 +154,47 @@ namespace API.Controllers
 
             logger.LogInformation("Returned {Count} delivery methods", deliveryMethods.Count);
             return Ok(deliveryMethods);
+        }
+
+        [Authorize]
+        [HttpPut("cancel-order/{orderId}")]
+        public async Task<ActionResult> CancelOrder(int orderId)
+        {
+            var userId = User.GetUserId();
+            logger.LogInformation("User {UserId} attempts to cancel order {OrderId}", userId, orderId);
+
+            var spec = new OrderSpecification(orderId);
+            var order = await unit.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null)
+            {
+                logger.LogWarning("Order {OrderId} not found", orderId);
+                return NotFound("Order not found.");
+            }
+
+            if (order.User.Id != userId)
+            {
+                logger.LogWarning("User {UserId} not authorized to cancel order {OrderId}", userId, orderId);
+                return Forbid();
+            }
+
+            if (order.Status == OrderStatus.Cancelled || order.Status == OrderStatus.Done)
+            {
+                logger.LogInformation("Order {OrderId} is already in status {Status}", orderId, order.Status);
+                return BadRequest($"Cannot cancel an order with status '{order.Status}'.");
+            }
+
+            order.Status = OrderStatus.Cancelled;
+            unit.Repository<Order>().Update(order);
+
+            if (await unit.Complete())
+            {
+                logger.LogInformation("Order {OrderId} cancelled successfully by user {UserId}", orderId, userId);
+                return NoContent();
+            }
+
+            logger.LogError("Failed to cancel order {OrderId} for user {UserId}", orderId, userId);
+            return BadRequest("Failed to cancel order.");
         }
     }
 }

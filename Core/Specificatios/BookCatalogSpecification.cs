@@ -14,7 +14,7 @@ namespace Core.Specificatios
         {
             AddInclude(p => p.Author);
             AddInclude(p => p.Genre);
-            AddInclude(p => p.Publisher!);
+            AddInclude(p => p.Publisher);
 
             ApplyPaging(bookSpecParams.PageSize * (bookSpecParams.PageIndex - 1), bookSpecParams.PageSize);
 

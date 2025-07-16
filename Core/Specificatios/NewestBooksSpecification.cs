@@ -7,6 +7,7 @@ namespace Core.Specificatios
     {
         public NewestBooksSpecification()
         {
+            AddInclude(x => x.Author);
             AddOrderByDescending(b => b.CreatedAt);
             ApplyLimit(6);
         }

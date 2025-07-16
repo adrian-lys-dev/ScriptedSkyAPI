@@ -18,7 +18,8 @@ namespace API.Mapping
                 PageNumber = book.PageNumber,
                 Price = book.Price,
                 ISBN = book.ISBN,
-                QuantityInStock = book.QuantityInStock
+                QuantityInStock = book.QuantityInStock,
+                AuthorNames = string.Join(", ", book.Author.Select(a => a.Name))
             };
         }
 

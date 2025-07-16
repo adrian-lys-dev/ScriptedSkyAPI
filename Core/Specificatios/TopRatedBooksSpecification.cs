@@ -7,6 +7,7 @@ namespace Core.Specificatios
     {
         public TopRatedBooksSpecification()
         {
+            AddInclude(x => x.Author);
             AddOrderByDescending(b => b.Rating);
             ApplyLimit(6);
         }

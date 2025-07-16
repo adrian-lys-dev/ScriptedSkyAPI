@@ -1,6 +1,4 @@
-﻿using Core.Entities;
-
-namespace API.Dtos.CatalogDtos
+﻿namespace API.Dtos.CatalogDtos
 {
     public class CatalogBookDto
     {
@@ -14,5 +12,6 @@ namespace API.Dtos.CatalogDtos
         public decimal Price { get; set; }
         public required string ISBN { get; set; }
         public int QuantityInStock { get; set; }
+        public required string AuthorNames { get; set; }
     }
 }

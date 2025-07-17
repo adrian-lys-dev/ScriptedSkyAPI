@@ -1,5 +1,6 @@
 ﻿using API.Dtos.CatalogDtos;
 using Core.Entities;
+using API.Helpers;
 
 namespace API.Mapping
 {
@@ -12,7 +13,7 @@ namespace API.Mapping
                 Id = book.Id,
                 Title = book.Title,
                 Description = book.Description,
-                PictureURL = book.PictureURL,
+                PictureURL = UrlHelper.BuildImageUrl(book.PictureURL),
                 ReleaseYear = book.ReleaseYear,
                 Rating = book.Rating,
                 PageNumber = book.PageNumber,
@@ -30,7 +31,7 @@ namespace API.Mapping
                 Id = book.Id,
                 Title = book.Title,
                 Description = book.Description,
-                PictureURL = book.PictureURL,
+                PictureURL = UrlHelper.BuildImageUrl(book.PictureURL),
                 ReleaseYear = book.ReleaseYear,
                 Rating = book.Rating,
                 PageNumber = book.PageNumber,
@@ -52,6 +53,5 @@ namespace API.Mapping
                 }).ToList()
             };
         }
-
     }
 }

@@ -10,6 +10,7 @@ using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {
@@ -27,7 +28,7 @@ namespace API.Controllers
             if (cart == null)
             {
                 logger.LogWarning("Cart not found for cartId={CartId}", createOrderDto.CartId);
-                return BadRequest("Cart not found");
+                return BadRequest(new ApiResponse(400, "Cart not found"));
             }
 
             var items = new List<OrderItem>();
@@ -39,7 +40,7 @@ namespace API.Controllers
                 if (book == null)
                 {
                     logger.LogWarning("Book with ID={BookId} not found in cart", item.BookId);
-                    return BadRequest("Problem with the order");
+                    return BadRequest(new ApiResponse(400, "Problem with the order"));
                 }
 
                 items.Add(new OrderItem
@@ -56,7 +57,7 @@ namespace API.Controllers
             if (deliveryMethod == null)
             {
                 logger.LogWarning("Delivery method with ID={DeliveryMethodId} not found", createOrderDto.DeliveryMethodId);
-                return BadRequest("Delivery method not found");
+                return BadRequest(new ApiResponse(400, "Delivery method not found"));
             }
 
             if (deliveryMethod.Id == 3)
@@ -68,7 +69,7 @@ namespace API.Controllers
                 if (string.IsNullOrWhiteSpace(createOrderDto.Adress))
                 {
                     logger.LogWarning("Address is empty for delivery method ID={DeliveryMethodId}", deliveryMethod.Id);
-                    return BadRequest("Address must be provided for this delivery method");
+                    return BadRequest(new ApiResponse(400, "Address must be provided for this delivery method"));
                 }
             }
 
@@ -76,7 +77,7 @@ namespace API.Controllers
             if (user == null)
             {
                 logger.LogWarning("Unauthorized access attempt while creating order");
-                return Unauthorized();
+                return Unauthorized(new ApiResponse(401, "Unauthorized access attempt while creating order"));
             }
 
             var order = new Order
@@ -101,7 +102,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to create order for userId={UserId}", user.Id);
-            return BadRequest("Failed to create order");
+            return BadRequest(new ApiResponse(400, "Failed to create order"));
         }
 
         [Authorize]
@@ -138,7 +139,7 @@ namespace API.Controllers
             if (order == null)
             {
                 logger.LogInformation("Order {OrderId} not found for user {UserId}", orderId, userId);
-                return NotFound("Order not found.");
+                return NotFound(new ApiResponse(404, "Order not found"));
             }
 
             logger.LogInformation("Order {OrderId} returned for user {UserId}", orderId, userId);
@@ -169,19 +170,19 @@ namespace API.Controllers
             if (order == null)
             {
                 logger.LogWarning("Order {OrderId} not found", orderId);
-                return NotFound("Order not found.");
+                return NotFound(new ApiResponse(404, "Order not found"));
             }
 
             if (order.User.Id != userId)
             {
                 logger.LogWarning("User {UserId} not authorized to cancel order {OrderId}", userId, orderId);
-                return Forbid();
+                return StatusCode(403, new ApiResponse(403, "You are not allowed to cancel this order."));
             }
 
             if (order.Status == OrderStatus.Cancelled || order.Status == OrderStatus.Done)
             {
                 logger.LogInformation("Order {OrderId} is already in status {Status}", orderId, order.Status);
-                return BadRequest($"Cannot cancel an order with status '{order.Status}'.");
+                return BadRequest(new ApiResponse(400, $"Cannot cancel an order with status '{order.Status}'."));
             }
 
             order.Status = OrderStatus.Cancelled;
@@ -194,7 +195,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to cancel order {OrderId} for user {UserId}", orderId, userId);
-            return BadRequest("Failed to cancel order.");
+            return BadRequest(new ApiResponse(400, "Failed to cancel order"));
         }
     }
 }

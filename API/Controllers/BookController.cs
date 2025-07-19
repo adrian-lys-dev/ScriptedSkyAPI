@@ -6,6 +6,7 @@ using Core.Interfaces;
 using Core.Specificatios;
 using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {
@@ -39,7 +40,7 @@ namespace API.Controllers
             if (book == null)
             {
                 logger.LogWarning("Book with id {Id} not found at {Path}", id, HttpContext.Request.Path);
-                return NotFound();
+                return NotFound(new ApiResponse(404, "Book not found"));
             }
 
             var result = CatalogMapping.MapBookToSingleDto(book);

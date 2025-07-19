@@ -1,6 +1,7 @@
 ﻿using API.Dtos.FilteringDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -13,21 +14,21 @@ namespace API.Controllers
         public IActionResult GetUnauthorized()
         {
             logger.LogError("Unauthorized access attempt at {Path}", HttpContext.Request.Path);
-            return Unauthorized();
+            return Unauthorized(new ApiResponse(401));
         }
 
         [HttpGet("badrequest")]
         public IActionResult GetBadRequest()
         {
             logger.LogWarning("Bad request at {Path}", HttpContext.Request.Path);
-            return BadRequest("Bad Request");
+            return BadRequest(new ApiResponse(400, "Not a good request"));
         }
 
         [HttpGet("notfound")]
         public IActionResult GetNotFound()
         {
             logger.LogWarning("Resource not found at {Path}", HttpContext.Request.Path);
-            return NotFound("Resource not found");
+            return NotFound(new ApiResponse(404));
         }
 
         [HttpGet("internalerror")]

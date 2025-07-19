@@ -1,6 +1,7 @@
 ﻿using Core.Entities.Cart;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {
@@ -28,7 +29,7 @@ namespace API.Controllers
             if (updatedCart == null)
             {
                 logger.LogWarning("Failed to update cart with ID: {CartId}", cart.Id);
-                return BadRequest("Problem with cart");
+                return BadRequest(new ApiResponse(400, "Problem with cart"));
             }
 
             logger.LogInformation("Cart with ID {CartId} updated successfully.", cart.Id);
@@ -44,7 +45,7 @@ namespace API.Controllers
             if (!result)
             {
                 logger.LogWarning("Failed to delete cart with ID: {CartId}", id);
-                return BadRequest("Problem deleting cart");
+                return BadRequest(new ApiResponse(400, "Problem deleting cart"));
             }
 
             logger.LogInformation("Cart with ID {CartId} deleted successfully.", id);

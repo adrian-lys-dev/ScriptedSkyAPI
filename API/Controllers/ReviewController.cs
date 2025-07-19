@@ -7,6 +7,7 @@ using Core.Specificatios;
 using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {
@@ -42,7 +43,7 @@ namespace API.Controllers
             if (reviewExists)
             {
                 logger.LogError("Failed to create review for BookId {BookId} by UserId {UserId}. User alredy has a review for this book", dto.BookId, dto.UserId);
-                return BadRequest("User alredy has a review for this book");
+                return BadRequest(new ApiResponse(400, "User alredy has a review for this book"));
             }
 
             var review = new Review
@@ -63,7 +64,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to create review for BookId {BookId} by UserId {UserId}", dto.BookId, dto.UserId);
-            return BadRequest("Problem creating the review");
+            return BadRequest(new ApiResponse(400, "Problem creating the review"));
         }
 
         [Authorize]
@@ -78,7 +79,7 @@ namespace API.Controllers
             {
                 logger.LogWarning("Unauthorized review update attempt. ReviewId: {ReviewId}, ProvidedUserId: {ProvidedUserId}, AuthenticatedUserId: {AuthenticatedUserId}",
                     id, dto.UserId, userId);
-                return Forbid("You are not allowed to modify this review.");
+                return StatusCode(403, new ApiResponse(403, "You are not allowed to modify this review."));
             }
 
             var existing = await unit.Repository<Review>().GetByIdAsync(id);
@@ -86,7 +87,7 @@ namespace API.Controllers
             if (existing is null)
             {
                 logger.LogWarning("Review with ID {ReviewId} not found", id);
-                return NotFound("Review not found");
+                return NotFound(new ApiResponse(404, "Review not found"));
             }
 
             existing.ReviewText = dto.ReviewText;
@@ -103,7 +104,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to update review with ID {ReviewId}", id);
-            return BadRequest("Problem updating the review");
+            return BadRequest(new ApiResponse(400, "Problem creating the review"));
         }
 
         [Authorize]
@@ -117,7 +118,7 @@ namespace API.Controllers
             if (existing is null)
             {
                 logger.LogWarning("Review with ID {ReviewId} not found", id);
-                return NotFound("Review not found");
+                return NotFound(new ApiResponse(404, "Review not found"));
             }
 
             var userId = User.GetUserId();
@@ -131,7 +132,7 @@ namespace API.Controllers
                 logger.LogWarning("Unauthorized delete attempt. ReviewId: {ReviewId}, OwnerId: {OwnerId}, RequestingUserId: {UserId}, Roles: {@Roles}",
                     id, existing.UserId, userId, userRoles);
 
-                return Forbid("You are not allowed to delete this review.");
+                return StatusCode(403, new ApiResponse(403, "You are not allowed to delete this review."));
             }
 
             unit.Repository<Review>().Delete(existing);
@@ -143,7 +144,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to delete review with ID {ReviewId}", id);
-            return BadRequest("Problem deleting the review");
+            return BadRequest(new ApiResponse(400, "Problem deleting the review"));
         }
     }
 }

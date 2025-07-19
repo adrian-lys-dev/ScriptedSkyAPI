@@ -7,6 +7,7 @@ using Core.Specificatios;
 using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {
@@ -42,7 +43,7 @@ namespace API.Controllers
             if (order == null)
             {
                 logger.LogWarning("Order {OrderId} not found", orderId);
-                return NotFound("Order not found.");
+                return NotFound(new ApiResponse(404, "Order not found"));
             }
 
             order.Status = status;
@@ -55,7 +56,7 @@ namespace API.Controllers
             }
 
             logger.LogError("Failed to update status for order {OrderId}", orderId);
-            return BadRequest("Failed to update order status.");
+            return BadRequest(new ApiResponse(400, "Failed to update order status"));
         }
     }
 }

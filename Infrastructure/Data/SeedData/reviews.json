@@ -187,5 +187,193 @@
     "Rating": 4,
     "BookId": 10,
     "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A challenging but rewarding read, with deep philosophical insights.",
+    "Rating": 4,
+    "BookId": 11,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Sometimes dense, but the ideas really stuck with me.",
+    "Rating": 4,
+    "BookId": 11,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Not an easy read, but very valuable for self-reflection.",
+    "Rating": 3,
+    "BookId": 11,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "The story was intriguing, but I wished for more action.",
+    "Rating": 3,
+    "BookId": 12,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Excellent thriller with complex characters and a gripping plot.",
+    "Rating": 5,
+    "BookId": 12,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Well written and thought-provoking, kept me hooked till the end.",
+    "Rating": 4,
+    "BookId": 12,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "An intense and fast-paced story that kept me on edge.",
+    "Rating": 5,
+    "BookId": 13,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A bit complex at times but overall a fascinating read.",
+    "Rating": 4,
+    "BookId": 13,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Enjoyed the mix of science fiction and thriller elements.",
+    "Rating": 4,
+    "BookId": 13,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Really helpful book with practical advice on changing habits.",
+    "Rating": 4,
+    "BookId": 14,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Good examples and insights, but some parts felt repetitive.",
+    "Rating": 3,
+    "BookId": 14,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Motivational and easy to apply in daily life.",
+    "Rating": 5,
+    "BookId": 14,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Powerful and emotional story about survival and love.",
+    "Rating": 5,
+    "BookId": 15,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Beautifully written but very bleak and heavy.",
+    "Rating": 4,
+    "BookId": 15,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A haunting read that stayed with me long after finishing.",
+    "Rating": 4,
+    "BookId": 15,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "A rich and intricate narrative that immerses you in a world of history and mystery.",
+    "Rating": 4,
+    "BookId": 16,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Sometimes dense, but the atmosphere and detail are incredible.",
+    "Rating": 4,
+    "BookId": 16,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Loved the puzzle-like story, though it required patience.",
+    "Rating": 3,
+    "BookId": 16,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Philosophical and practical – a great guide to personal growth.",
+    "Rating": 5,
+    "BookId": 17,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Deep insights that make you think about life and ethics.",
+    "Rating": 4,
+    "BookId": 17,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Sometimes repetitive but overall very inspiring.",
+    "Rating": 4,
+    "BookId": 17,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "A thrilling and dark mystery with unforgettable characters.",
+    "Rating": 5,
+    "BookId": 18,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Complex and gritty, kept me guessing until the end.",
+    "Rating": 4,
+    "BookId": 18,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Well-written but sometimes hard to follow due to the dark themes.",
+    "Rating": 3,
+    "BookId": 18,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "An inventive and mind-bending sci-fi thriller.",
+    "Rating": 5,
+    "BookId": 19,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Fast-paced and thought-provoking, loved the twists.",
+    "Rating": 4,
+    "BookId": 19,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Great concept, though some parts felt rushed.",
+    "Rating": 3,
+    "BookId": 19,
+    "UserId": "crazyReviewer-123"
+  },
+
+  {
+    "ReviewText": "Very useful and practical advice on habit formation.",
+    "Rating": 4,
+    "BookId": 20,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Informative and well-researched, but a bit dry in places.",
+    "Rating": 3,
+    "BookId": 20,
+    "UserId": "crazyReviewer-123"
+  },
+  {
+    "ReviewText": "Inspirational book that helped me change my daily routines.",
+    "Rating": 5,
+    "BookId": 20,
+    "UserId": "crazyReviewer-123"
   }
 ]

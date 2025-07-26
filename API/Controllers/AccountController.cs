@@ -48,6 +48,7 @@ namespace API.Controllers
             };
 
             var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
+            await signInManager.UserManager.AddToRoleAsync(user, "User");
 
             if (!result.Succeeded)
             {

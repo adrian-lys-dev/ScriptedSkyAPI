@@ -4,6 +4,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Re_ABP_Backend.Errors;
 using System.Security.Claims;
 
 namespace API.Controllers
@@ -12,6 +13,29 @@ namespace API.Controllers
     [ApiController]
     public class AccountController(SignInManager<AppUser> signInManager, ILogger<AccountController> logger) : ControllerBase
     {
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginDto loginDto)
+        {
+            var user = await signInManager.UserManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+            {
+                return Unauthorized(new ApiResponse(401, "Invalid email or password"));
+            }
+
+            var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+            if (!result.Succeeded)
+            {
+                logger.LogWarning("Login failed. Invalid password for: {Email}", loginDto.Email);
+                return Unauthorized(new ApiResponse(401, "Invalid email or password"));
+            }
+
+            await signInManager.SignInAsync(user, isPersistent: false);
+            logger.LogInformation("Login succeeded for {Email}", loginDto.Email);
+
+            return NoContent();
+        }
+
+
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {

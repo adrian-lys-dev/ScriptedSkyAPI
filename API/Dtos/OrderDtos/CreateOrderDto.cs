@@ -12,7 +12,6 @@ namespace API.Dtos.OrderDtos
         public required string ContactEmail { get; set; }
         [Required]
         public required string ContactName { get; set; }
-        [Required]
-        public string? Adress { get; set; }
+        public string Adress { get; set; } = string.Empty;
     }
 }

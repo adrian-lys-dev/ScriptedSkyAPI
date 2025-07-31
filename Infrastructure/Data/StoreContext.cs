@@ -4,7 +4,6 @@ using Core.Entities.OrderAggregate;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace Infrastructure.Data
 {
@@ -34,6 +33,11 @@ namespace Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(ReviewConfiguration).Assembly);
+
+            builder.Entity<AppUser>()
+                .Property(u => u.CreatedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
+
 
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

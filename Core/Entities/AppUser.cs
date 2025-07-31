@@ -9,5 +9,6 @@ namespace Core.Entities
         public string? LastName { get; set; }
         public List<Order> Order { get; set; } = [];
         public List<Review> Reviews { get; set; } = [];
+        public DateTime CreatedAt { get; set; }
     }
 }

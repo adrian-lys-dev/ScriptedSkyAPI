@@ -34,6 +34,7 @@ namespace Infrastructure
             });
             services.AddSingleton<ICartService, CartService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddIdentityCore<AppUser>(options =>
             {

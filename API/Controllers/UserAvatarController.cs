@@ -1,4 +1,6 @@
-﻿using API.Extensions;
+﻿using API.Dtos.UserProfileDtos;
+using API.Extensions;
+using API.Mapping;
 using Core.Entities.User;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,14 +16,16 @@ namespace API.Controllers
     public class UserAvatarController(SignInManager<AppUser> signInManager, IUnitOfWork unit, ILogger<UserAvatarController> logger) : ControllerBase
     {
         [HttpGet("available")]
-        public async Task<ActionResult> GetAvailableAvatars()
+        public async Task<ActionResult<IReadOnlyList<AvatarDto>>> GetAvailableAvatars()
         {
             var avatars = await unit.Repository<Avatar>().ListAllAsync();
 
-            return Ok(avatars);
+            var result = avatars.Select(AvatarMapping.ToDto).ToList();
+
+            return Ok(result);
         }
 
-        [HttpPost("update")]
+        [HttpPost("update/{avatarId}")]
         public async Task<ActionResult> UpdateAvatar(int avatarId)
         {
             var userId = User.GetUserId();
@@ -54,7 +58,7 @@ namespace API.Controllers
             }
 
             logger.LogInformation("User {UserId} successfully updated avatar to {AvatarId}", userId, avatarId);
-            return Ok("Avatar updated successfully");
+            return Ok();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.User;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +6,6 @@ namespace Infrastructure.Data.Repositories
 {
     public class UserRepository(StoreContext context) : IUserRepository
     {
-
         public async Task<AppUser?> GetUserWithDetailsAsync(string userId)
         {
             return await context.Users
@@ -14,6 +13,5 @@ namespace Infrastructure.Data.Repositories
                 .Include(u => u.Reviews)
                 .FirstOrDefaultAsync(u => u.Id == userId);
         }
-
     }
 }

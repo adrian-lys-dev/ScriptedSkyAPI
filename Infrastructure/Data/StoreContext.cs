@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Entities.Base;
 using Core.Entities.OrderAggregate;
+using Core.Entities.User;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Infrastructure.Data
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
         public DbSet<Review> Review { get; set; }
+        public DbSet<Avatar> Avatar { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,11 +35,7 @@ namespace Infrastructure.Data
             builder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
             builder.ApplyConfigurationsFromAssembly(typeof(ReviewConfiguration).Assembly);
-
-            builder.Entity<AppUser>()
-                .Property(u => u.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()");
-
+            builder.ApplyConfigurationsFromAssembly(typeof(AppUserConfiguration).Assembly);
 
             foreach (var entityType in builder.Model.GetEntityTypes())
             {

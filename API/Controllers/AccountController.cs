@@ -1,9 +1,11 @@
 ﻿using API.Dtos.IdentityDtos;
 using API.Extensions;
-using Core.Entities;
+using API.Helpers;
+using Core.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Re_ABP_Backend.Errors;
 using System.Security.Claims;
 
@@ -84,9 +86,12 @@ namespace API.Controllers
             {
                 logger.LogInformation("Unauthenticated request to /user-info");
                 return NoContent();
-            } 
+            }
 
-            var user = await signInManager.UserManager.GetUserByEmail(User);
+            var user = await signInManager.UserManager.Users
+                .Include(u => u.Avatar)
+                .FirstOrDefaultAsync(u => u.Email == User.GetEmail());
+
             logger.LogInformation("User info retrieved for: {Email}", user.Email);
 
             return Ok(new
@@ -95,6 +100,7 @@ namespace API.Controllers
                 user.FirstName,
                 user.LastName,
                 user.Email,
+                Avatar = UrlHelper.BuildImageUrl(user.Avatar.AvatarPath),
                 Roles = User.FindFirstValue(ClaimTypes.Role)
             });
         }

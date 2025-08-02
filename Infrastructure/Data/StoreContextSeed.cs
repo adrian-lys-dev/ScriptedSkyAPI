@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.User;
 using Infrastructure.Data.SeedData.SeedDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,16 @@ namespace Infrastructure.Data
             logger.LogInformation("Starting database seeding...");
 
             await EnsureTriggersExistAsync(context, logger);
+
+            if (!await context.Avatar.AnyAsync())
+            {
+                var avatarsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/avatars.json");
+                var avatars = JsonSerializer.Deserialize<List<Avatar>>(avatarsData);
+                if (avatars == null) return;
+
+                context.Avatar.AddRange(avatars);
+                await context.SaveChangesAsync();
+            }
 
             if (!await roleManager.RoleExistsAsync("Admin"))
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
@@ -47,7 +58,6 @@ namespace Infrastructure.Data
                 await userManager.CreateAsync(user, "test123");
                 await userManager.AddToRoleAsync(user, "User");
             }
-
 
             if (!await context.Author.AnyAsync())
             {

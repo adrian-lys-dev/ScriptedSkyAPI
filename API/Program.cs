@@ -1,5 +1,4 @@
 using API.Middleware;
-using Core.Entities;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,7 @@ using Serilog;
 using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using API.Errors;
+using Core.Entities.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,12 +53,15 @@ app.UseSerilogRequestLogging();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseStaticFiles();
+
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
     .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>(); // api/

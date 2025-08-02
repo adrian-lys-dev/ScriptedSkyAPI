@@ -8,7 +8,7 @@ namespace API.Helpers
 
         public static void Configure(IConfiguration config)
         {
-            _baseUrl = config["ApiUrl"] ?? throw new Exception("ApiUrl is missing in configuration.");
+            _baseUrl = config["ApiUrl"] ?? throw new InvalidOperationException("ApiUrl is missing in configuration.");
         }
 
         public static string BuildImageUrl(string relativePath)

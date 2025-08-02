@@ -1,7 +1,7 @@
 ﻿using Core.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 
-namespace Core.Entities
+namespace Core.Entities.User
 {
     public class AppUser : IdentityUser
     {
@@ -10,5 +10,7 @@ namespace Core.Entities
         public List<Order> Order { get; set; } = [];
         public List<Review> Reviews { get; set; } = [];
         public DateTime CreatedAt { get; set; }
+        public Avatar Avatar { get; set; } = null!;
+        public int AvatarId { get; set; }
     }
 }

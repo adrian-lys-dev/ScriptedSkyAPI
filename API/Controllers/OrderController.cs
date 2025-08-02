@@ -4,6 +4,7 @@ using API.Mapping;
 using API.RequestHelpers;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
+using Core.Entities.User;
 using Core.Interfaces;
 using Core.Specificatios;
 using Core.Specificatios.Params;

@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Base;
+using Core.Entities.User;
 using System.Text.Json.Serialization;
 
 namespace Core.Entities.OrderAggregate

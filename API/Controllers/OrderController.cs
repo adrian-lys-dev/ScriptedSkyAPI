@@ -127,7 +127,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpGet("get-order/{orderId}")]
+        [HttpGet("get-user-order/{orderId}")]
         public async Task<ActionResult<OrderResponseDto>> GetOrder(int orderId)
         {
             var userId = User.GetUserId();
@@ -141,6 +141,12 @@ namespace API.Controllers
             {
                 logger.LogInformation("Order {OrderId} not found for user {UserId}", orderId, userId);
                 return NotFound(new ApiResponse(404, "Order not found"));
+            }
+
+            if (userId != order.User.Id)
+            {
+                logger.LogInformation("Order {OrderId} does not belong to user {UserId}", orderId, userId);
+                return StatusCode(403, new ApiResponse(403, "You are not allowed here."));
             }
 
             logger.LogInformation("Order {OrderId} returned for user {UserId}", orderId, userId);

@@ -14,5 +14,7 @@ namespace Core.Interfaces
         bool IsPagingEnabled { get; }
         int? Limit { get; }
         IQueryable<T> ApplyCriteria(IQueryable<T> query);
+
+        bool UseSplitQuery { get; }
     }
 }

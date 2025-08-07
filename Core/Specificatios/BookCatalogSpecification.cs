@@ -18,6 +18,8 @@ namespace Core.Specificatios
 
             ApplyPaging(bookSpecParams.PageSize * (bookSpecParams.PageIndex - 1), bookSpecParams.PageSize);
 
+            EnableSplitQuery();
+
             switch (bookSpecParams.Sort)
             {
                 case "priceAsc":

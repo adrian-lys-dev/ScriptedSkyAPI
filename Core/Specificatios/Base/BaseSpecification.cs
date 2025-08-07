@@ -6,6 +6,8 @@ namespace Core.Specificatios.Base
     public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecification<T>
     {
         protected BaseSpecification() : this(null) { }
+
+        public bool UseSplitQuery { get; private set; } = false;
         public Expression<Func<T, bool>>? Criteria => criteria;
 
         public Expression<Func<T, object>>? OrderBy { get; private set; }
@@ -24,9 +26,15 @@ namespace Core.Specificatios.Base
 
         public int? Limit { get; private set; }
 
+
         protected void ApplyLimit(int count)
         {
             Limit = count;
+        }
+
+        protected void EnableSplitQuery()
+        {
+            UseSplitQuery = true;
         }
 
         protected void AddInclude(Expression<Func<T, object>> includeExpression)

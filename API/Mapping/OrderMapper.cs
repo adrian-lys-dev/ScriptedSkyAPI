@@ -1,4 +1,6 @@
 ﻿using API.Dtos.OrderDtos;
+using API.Helpers;
+using Core.Entities;
 using Core.Entities.OrderAggregate;
 
 namespace API.Mapping
@@ -24,6 +26,7 @@ namespace API.Mapping
                 {
                     BookId = i.BookId,
                     Title = i.Book.Title,
+                    PictureURL = UrlHelper.BuildImageUrl(i.Book.PictureURL),
                     Price = i.Price,
                     Quantity = i.Quantity
                 }).ToList(),

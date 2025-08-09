@@ -49,6 +49,22 @@ namespace API.Controllers
             return result;
         }
 
+        [HttpGet("{id:int}/rating")]
+        public async Task<ActionResult<int>> GetBookRating(int id)
+        {
+            var book = await unit.Repository<Book>().GetByIdAsync(id);
+
+            if (book == null)
+            {
+                logger.LogWarning("Book with id {Id} not found at {Path}", id, HttpContext.Request.Path);
+                return NotFound(new ApiResponse(404, "Book not found"));
+            }
+
+            logger.LogInformation("Book with id {Id} retrieved successfully at {Path}", id, HttpContext.Request.Path);
+
+            return Ok(book.Rating);
+        }
+
         [HttpGet("rating-top")]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetTopBooks()
         {

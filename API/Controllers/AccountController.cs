@@ -92,7 +92,7 @@ namespace API.Controllers
                 .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(u => u.Email == User.GetEmail());
 
-            logger.LogInformation("User info retrieved for: {Email}", user.Email);
+            logger.LogInformation("User info retrieved for: {Email}", user!.Email);
 
             return Ok(new
             {

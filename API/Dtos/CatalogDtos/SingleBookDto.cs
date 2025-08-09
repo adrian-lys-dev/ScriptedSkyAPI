@@ -17,6 +17,5 @@ namespace API.Dtos.CatalogDtos
         public List<Genre> Genre { get; set; } = [];
         public List<Author> Author { get; set; } = [];
         public Publisher Publisher { get; set; } = null!;
-        public List<SBReviewDto> Reviews { get; set; } = [];
     }
 }

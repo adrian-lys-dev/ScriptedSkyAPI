@@ -1,5 +1,6 @@
 ﻿using API.Dtos.ReviewDtos;
 using API.Extensions;
+using API.Mapping;
 using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
@@ -33,6 +34,25 @@ namespace API.Controllers
             return Ok(pagination);
         }
 
+        [HttpGet("book/{id:int}")]
+        public async Task<ActionResult<IReadOnlyList<Review>>> GetBookReviews([FromQuery] PaginationParams paginationParams, int id)
+        {
+
+            logger.LogInformation("Fetching reviews with params: {@PaginationParams}, for book {BookId}", paginationParams, id);
+
+            var spec = new ReviewSpecification(paginationParams, id);
+            var reviews = await unit.Repository<Review>().ListWithSpecAsync(spec);
+            var count = await unit.Repository<Review>().CountSpecAsync(spec);
+
+            var data = ReviewMapping.ToBookReviewDtoList(reviews);
+
+            var pagination = new Pagination<BookReviewDto>(paginationParams.PageIndex, paginationParams.PageSize, count, data);
+
+            logger.LogInformation("Fetched {Count} reviews for page {PageIndex}", reviews.Count, paginationParams.PageIndex);
+
+            return Ok(pagination);
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateReview([FromBody] ReviewDto dto)
@@ -46,13 +66,7 @@ namespace API.Controllers
                 return BadRequest(new ApiResponse(400, "User alredy has a review for this book"));
             }
 
-            var review = new Review
-            {
-                ReviewText = dto.ReviewText,
-                Rating = dto.Rating,
-                BookId = dto.BookId,
-                UserId = dto.UserId,
-            };
+            var review = ReviewMapping.ToEntity(dto);
 
             unit.Repository<Review>().Add(review);
 
@@ -90,10 +104,7 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(404, "Review not found"));
             }
 
-            existing.ReviewText = dto.ReviewText;
-            existing.Rating = dto.Rating;
-            existing.BookId = dto.BookId;
-            existing.UserId = dto.UserId;
+            ReviewMapping.UpdateEntity(existing, dto);
 
             unit.Repository<Review>().Update(existing);
 

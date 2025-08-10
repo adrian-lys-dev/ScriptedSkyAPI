@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Infrastructure.Data
@@ -14,13 +15,16 @@ namespace Infrastructure.Data
         public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ILogger logger)
         {
 
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             logger.LogInformation("Starting database seeding...");
 
             await EnsureTriggersExistAsync(context, logger);
 
             if (!await context.Avatar.AnyAsync())
             {
-                var avatarsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/avatars.json");
+                var avatarsData = await File.
+                    ReadAllTextAsync(path + @"/Data/SeedData/avatars.json");
                 var avatars = JsonSerializer.Deserialize<List<Avatar>>(avatarsData);
                 if (avatars == null) return;
 
@@ -61,7 +65,8 @@ namespace Infrastructure.Data
 
             if (!await context.Author.AnyAsync())
             {
-                var authorsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/authors.json");
+                var authorsData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/authors.json");
                 var authors = JsonSerializer.Deserialize<List<Author>>(authorsData);
                 if (authors == null) return;
 
@@ -71,7 +76,8 @@ namespace Infrastructure.Data
 
             if (!await context.Genre.AnyAsync())
             {
-                var genresData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/genres.json");
+                var genresData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/genres.json");
                 var genres = JsonSerializer.Deserialize<List<Genre>>(genresData);
                 if (genres == null) return;
 
@@ -81,7 +87,8 @@ namespace Infrastructure.Data
 
             if (!await context.Publisher.AnyAsync())
             {
-                var publishersData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/publishers.json");
+                var publishersData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/publishers.json");
                 var publishers = JsonSerializer.Deserialize<List<Publisher>>(publishersData);
                 if (publishers == null) return;
 
@@ -91,7 +98,8 @@ namespace Infrastructure.Data
 
             if (!await context.Book.AnyAsync())
             {
-                var booksData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/books.json");
+                var booksData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/books.json");
                 var booksDto = JsonSerializer.Deserialize<List<BookDto>>(booksData);
                 if (booksDto == null) return;
 
@@ -143,7 +151,8 @@ namespace Infrastructure.Data
 
             if (!await context.DeliveryMethod.AnyAsync())
             {
-                var deliveryData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/deliveryMethods.json");
+                var deliveryData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/deliveryMethods.json");
                 var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
                 if (deliveries == null) return;
 
@@ -153,7 +162,8 @@ namespace Infrastructure.Data
 
             if (!await context.Review.AnyAsync())
             {
-                var reviewData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/reviews.json");
+                var reviewData = await File
+                    .ReadAllTextAsync(path + @"/Data/SeedData/reviews.json");
                 var reviews = JsonSerializer.Deserialize<List<Review>>(reviewData);
                 if (reviews == null) return;
 
@@ -167,8 +177,9 @@ namespace Infrastructure.Data
         private static async Task EnsureTriggersExistAsync(StoreContext context, ILogger logger)
         {
             logger.LogInformation("Checking triggers...");
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            var triggerDir = "../Infrastructure/Data/SeedData/TriggersSQL";
+            var triggerDir = path + @"/Data/SeedData/TriggersSQL";
 
             if (!Directory.Exists(triggerDir))
             {

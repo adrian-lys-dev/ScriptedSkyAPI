@@ -43,7 +43,9 @@ namespace Infrastructure.Data
                 var user = new AppUser
                 {
                     UserName = "test",
-                    Email = "test@test.com"
+                    Email = "test@test.com",
+                    FirstName = "test",
+                    LastName = "test",
                 };
 
                 await userManager.CreateAsync(user, "test123");
@@ -56,7 +58,9 @@ namespace Infrastructure.Data
                 {
                     Id = "crazyReviewer-123",
                     UserName = "crazyReviewer",
-                    Email = "crazyReviewer@test.com"
+                    Email = "crazyReviewer@test.com",
+                    FirstName = "Crazy",
+                    LastName = "Reviewer"
                 };
 
                 await userManager.CreateAsync(user, "test123");

@@ -61,5 +61,5 @@ jobs:
         with:
           app-name: 'scriptedSky-dotnet'
           slot-name: 'Production'
-          package: './.net-app'
+          package: .
           

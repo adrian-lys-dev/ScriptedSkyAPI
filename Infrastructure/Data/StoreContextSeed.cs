@@ -17,8 +17,7 @@ namespace Infrastructure.Data
 
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            logger.LogInformation("Starting database seeding...");
-            logger.LogInformation("With cool data...");
+            logger.LogInformation("Starting database seeding right now...");
 
             await EnsureTriggersExistAsync(context, logger);
 

@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet("book/{id:int}")]
-        public async Task<ActionResult<IReadOnlyList<Review>>> GetBookReviews([FromQuery] PaginationParams paginationParams, int id)
+        public async Task<ActionResult<IReadOnlyList<BookReviewDto>>> GetBookReviews([FromQuery] PaginationParams paginationParams, int id)
         {
 
             logger.LogInformation("Fetching reviews with params: {@PaginationParams}, for book {BookId}", paginationParams, id);

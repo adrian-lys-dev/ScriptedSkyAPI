@@ -17,7 +17,8 @@ namespace API.Mapping
                 CreatedAt = review.CreatedAt,
                 UpdatedAt = review.UpdatedAt,
                 AvatarPath = UrlHelper.BuildImageUrl(review.AppUser.Avatar.AvatarPath),
-                UserName = review.AppUser.UserName!
+                FirstName = review.AppUser.FirstName,
+                LastName = review.AppUser.LastName
             };
         }
 

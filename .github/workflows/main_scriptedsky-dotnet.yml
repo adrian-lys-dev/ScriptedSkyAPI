@@ -47,6 +47,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          package: ./myapp
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -61,5 +62,5 @@ jobs:
         with:
           app-name: 'scriptedSky-dotnet'
           slot-name: 'Production'
-          package: .
+          package: ./myapp
           

@@ -1,11 +1,14 @@
+# Name of the workflow as it appears in GitHub Actions UI
 name: ScriptedSky CI
 
+# Define when this workflow will run
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allow manual triggering from GitHub UI
   push:
     branches:
-      - main
+      - main # Run automatically when code is pushed to main branch
 
+# Environment variables used throughout the workflow
 env:
   AZURE_WEBAPP_NAME: scriptedSky-webapi
   DOTNET_VERSION: '9.x'
@@ -13,9 +16,11 @@ env:
   API_PROJECT_PATH: 'API'
   PUBLISH_DIR: ${{ github.workspace }}/publish
 
+# Define the separate jobs that make up this workflow
 jobs:
+  # First job: build and test the application
   build-and-test:
-    runs-on: windows-latest
+    runs-on: windows-latest # Use windows runner for this job
     permissions:
       contents: read #This is required for actions/checkout
     steps:
@@ -38,19 +43,22 @@ jobs:
       - name: Show publish directory content
         run: dir ${{ env.PUBLISH_DIR }}
 
+      # Store the published output as an artifact for later jobs
       - name: Publish Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: webapp
+          name: webapp # Name of the artifact
           path: ${{ env.PUBLISH_DIR }}
 
+  # Second job: deploy the application to Azure
   deploy:
     runs-on: windows-latest
-    needs: [build-and-test]
+    needs: [build-and-test] # This job depends on the build-and-test job
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
 
+    # Retrieve the artifacts from the build job
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -58,6 +66,7 @@ jobs:
           name: webapp
           path: ${{ env.PUBLISH_DIR }}
 
+      # Login to Azure via secrets
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -65,6 +74,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DE046D03466C4CDF9DE5D3FB0ED49CB7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1CB7E1DA32964F84B1CCBFA1BAD5DE03 }}
 
+      # Deploy to Azure App Service
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:

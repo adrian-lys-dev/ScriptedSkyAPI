@@ -1,53 +1,57 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - scriptedSky-webapi
+name: ScriptedSky CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: scriptedSky-webapi
+  DOTNET_VERSION: '9.x'
+  SOLUTION_PATH: 'ScriptedSkyAPI.sln'
+  API_PROJECT_PATH: 'API'
+  PUBLISH_DIR: ${{ github.workspace }}/publish
 
 jobs:
-  build:
+  build-and-test:
     runs-on: windows-latest
-    permissions:
-      contents: read #This is required for actions/checkout
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
 
-      - name: Upload artifact for deployment job
+      - name: Publish API project
+        run: dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-restore --no-build --property:PublishDir=${{ env.PUBLISH_DIR }}
+
+      - name: Show publish directory content
+        run: dir ${{ env.PUBLISH_DIR }}
+
+      - name: Publish Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: webapp
+          path: ${{ env.PUBLISH_DIR }}
 
   deploy:
     runs-on: windows-latest
-    needs: build
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+    needs: [build-and-test]
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
-      
+          name: webapp
+          path: ${{ env.PUBLISH_DIR }}
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +59,8 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DE046D03466C4CDF9DE5D3FB0ED49CB7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1CB7E1DA32964F84B1CCBFA1BAD5DE03 }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
         with:
-          app-name: 'scriptedSky-webapi'
-          slot-name: 'Production'
-          package: .
-          
+          app-name: '${{ env.AZURE_WEBAPP_NAME }}'
+          package: '${{ env.PUBLISH_DIR }}'

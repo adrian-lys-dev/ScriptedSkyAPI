@@ -1,24 +1,13 @@
-name: ScriptedSky CI
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-
 env:
   AZURE_WEBAPP_NAME: scriptedSky-webapi
-  AZURE_WEBAPP_PACKAGE_PATH: './publish'
   DOTNET_VERSION: '9.x'
-  API_PROJECT_PATH: 'API'
   SOLUTION_PATH: 'ScriptedSkyAPI.sln'
-  PUBLISH_DIR: './publish'
+  API_PROJECT_PATH: 'API'
+  PUBLISH_DIR: ${{ github.workspace }}/publish
 
 jobs:
   build-and-test:
-    name: Build and Test
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -36,27 +25,28 @@ jobs:
       - name: Publish API project
         run: dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-restore --no-build --property:PublishDir=${{ env.PUBLISH_DIR }}
 
+      - name: Show publish directory content
+        run: dir ${{ env.PUBLISH_DIR }}
+
       - name: Publish Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          path: ${{ env.PUBLISH_DIR }}
 
   deploy:
-    name: Deploy to Azure
     runs-on: windows-latest
     needs: [build-and-test]
-
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          path: ${{ env.PUBLISH_DIR }}
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+          package: '${{ env.PUBLISH_DIR }}'

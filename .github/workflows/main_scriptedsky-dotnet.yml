@@ -10,6 +10,7 @@ env:
   AZURE_WEBAPP_NAME: scriptedSky-webapi
   AZURE_WEBAPP_PACKAGE_PATH: './publish'
   DOTNET_VERSION: '9.x'
+  API_PROJECT_PATH: 'API'
   SOLUTION_PATH: 'ScriptedSkyAPI.sln'
   PUBLISH_DIR: './publish'
 
@@ -33,7 +34,7 @@ jobs:
         run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
 
       - name: Publish API project
-        run: dotnet publish ./API/API.csproj --configuration Release --no-restore --no-build --property:PublishDir=${{ env.PUBLISH_DIR }}
+        run: dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-restore --no-build --property:PublishDir=${{ env.PUBLISH_DIR }}
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v4

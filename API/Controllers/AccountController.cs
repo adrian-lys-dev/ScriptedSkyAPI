@@ -101,7 +101,7 @@ namespace API.Controllers
                 user.LastName,
                 user.Email,
                 Avatar = UrlHelper.BuildImageUrl(user.Avatar.AvatarPath),
-                Roles = User.FindFirstValue(ClaimTypes.Role)
+                Roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList()
             });
         }
 

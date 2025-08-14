@@ -9,6 +9,7 @@ using Core.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Errors;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -136,7 +137,8 @@ namespace API.Controllers
             var userRoles = User.GetUserRole();
 
             var isOwner = existing.UserId == userId;
-            var isAdmin = userRoles.Contains("Admin");
+            var isAdmin = User.FindAll(ClaimTypes.Role)
+                  .Any(r => r.Value == "Admin");
 
             if (!isOwner && !isAdmin)
             {

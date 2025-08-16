@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Errors;
 
-namespace API.Controllers
+namespace API.Controllers.AdminControllers
 {
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]

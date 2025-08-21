@@ -1,19 +1,17 @@
-﻿using Application.Interfaces;
+﻿using Application.Dtos.UserProfileDtos;
+using Application.Interfaces;
 using Domain.Entities.OrderAggregate;
-using Domain.Models;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
-    public class UserService(StoreContext _context, IUserRepository userRepository) : IUserService
+    public class UserService(IUserRepository userRepository) : IUserService
     {
-        public async Task<UserStats?> GetUserStatsAsync(string userId)
+        public async Task<UserStatsDto?> GetUserStatsAsync(string userId)
         {
             var user = await userRepository.GetUserWithDetailsAsync(userId);
             if (user == null) return null;
 
-            return new UserStats
+            return new UserStatsDto
             {
                 TotalOrders = user.Order.Count,
                 ActiveOrders = user.Order.Count(o => o.Status == OrderStatus.Confirmed),
@@ -24,7 +22,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> HasExistingReview(int bookId, string userId)
         {
-            return await _context.Review.AnyAsync(r => r.BookId == bookId && r.UserId == userId);
+            return await userRepository.ReviewExistsAsync(bookId, userId);
         }
     }
 }

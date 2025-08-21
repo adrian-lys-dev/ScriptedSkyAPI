@@ -13,5 +13,10 @@ namespace Infrastructure.Data.Repositories
                 .Include(u => u.Reviews)
                 .FirstOrDefaultAsync(u => u.Id == userId);
         }
+
+        public async Task<bool> ReviewExistsAsync(int bookId, string userId)
+        {
+            return await context.Review.AnyAsync(r => r.BookId == bookId && r.UserId == userId);
+        }
     }
 }

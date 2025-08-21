@@ -1,8 +1,8 @@
 ﻿using API.Errors;
 using API.Extensions;
-using API.Mapping;
 using Application.Dtos.UserProfileDtos;
 using Application.Interfaces;
+using Application.Mapping;
 using Domain.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

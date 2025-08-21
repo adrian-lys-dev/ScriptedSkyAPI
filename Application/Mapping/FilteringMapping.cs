@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.FilteringDtos;
 using Domain.Entities;
 
-namespace API.Mapping
+namespace Application.Mapping
 {
     public static class FilteringMapping
     {

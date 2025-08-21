@@ -1,8 +1,8 @@
-﻿using API.Helpers;
-using Application.Dtos.UserProfileDtos;
+﻿using Application.Dtos.UserProfileDtos;
+using Application.Helpers;
 using Domain.Entities.User;
 
-namespace API.Mapping
+namespace Application.Mapping
 {
     public static class AvatarMapping
     {

@@ -1,8 +1,8 @@
-﻿using API.Helpers;
-using Application.Dtos.ReviewDtos;
+﻿using Application.Dtos.ReviewDtos;
+using Application.Helpers;
 using Domain.Entities;
 
-namespace API.Mapping
+namespace Application.Mapping
 {
     public static class ReviewMapping
     {

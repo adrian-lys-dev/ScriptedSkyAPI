@@ -1,7 +1,7 @@
 ﻿using API.Errors;
 using API.Extensions;
-using API.Helpers;
 using Application.Dtos.IdentityDtos;
+using Application.Helpers;
 using Domain.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

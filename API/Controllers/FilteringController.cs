@@ -1,6 +1,6 @@
-﻿using API.Mapping;
-using Application.Dtos.FilteringDtos;
+﻿using Application.Dtos.FilteringDtos;
 using Application.Interfaces;
+using Application.Mapping;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

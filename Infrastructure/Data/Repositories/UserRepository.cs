@@ -1,5 +1,5 @@
-﻿using Core.Entities.User;
-using Core.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
@@ -12,6 +12,11 @@ namespace Infrastructure.Data.Repositories
                 .Include(u => u.Order)
                 .Include(u => u.Reviews)
                 .FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        public async Task<bool> ReviewExistsAsync(int bookId, string userId)
+        {
+            return await context.Review.AnyAsync(r => r.BookId == bookId && r.UserId == userId);
         }
     }
 }

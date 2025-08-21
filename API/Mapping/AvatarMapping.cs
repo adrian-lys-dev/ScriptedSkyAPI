@@ -1,6 +1,6 @@
-﻿using API.Dtos.UserProfileDtos;
-using API.Helpers;
-using Core.Entities.User;
+﻿using API.Helpers;
+using Application.Dtos.UserProfileDtos;
+using Domain.Entities.User;
 
 namespace API.Mapping
 {

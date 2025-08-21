@@ -1,5 +1,5 @@
-﻿using Core.Entities;
-using Core.Entities.User;
+﻿using Domain.Entities;
+using Domain.Entities.User;
 using Infrastructure.Data.SeedData.SeedDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

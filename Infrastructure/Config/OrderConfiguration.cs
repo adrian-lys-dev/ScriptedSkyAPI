@@ -1,4 +1,4 @@
-﻿using Core.Entities.OrderAggregate;
+﻿using Domain.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

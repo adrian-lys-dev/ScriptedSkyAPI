@@ -1,4 +1,4 @@
-﻿namespace Re_ABP_Backend.Errors
+﻿namespace API.Errors
 {
     public class ApiResponse
     {

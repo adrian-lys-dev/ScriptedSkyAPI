@@ -1,14 +1,14 @@
-﻿using API.Dtos.ReviewDtos;
+﻿using API.Errors;
 using API.Extensions;
 using API.Mapping;
 using API.RequestHelpers;
-using Core.Entities;
-using Core.Interfaces;
-using Core.Specificatios;
-using Core.Specificatios.Params;
+using Application.Dtos.ReviewDtos;
+using Application.Interfaces;
+using Application.Specificatios;
+using Application.Specificatios.Params;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Re_ABP_Backend.Errors;
 using System.Security.Claims;
 
 namespace API.Controllers

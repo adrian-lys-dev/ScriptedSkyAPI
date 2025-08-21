@@ -1,6 +1,6 @@
-﻿using API.Dtos.CatalogDtos;
-using Core.Entities;
-using API.Helpers;
+﻿using API.Helpers;
+using Application.Dtos.CatalogDtos;
+using Domain.Entities;
 
 namespace API.Mapping
 {

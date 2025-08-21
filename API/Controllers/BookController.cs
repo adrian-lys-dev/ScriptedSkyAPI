@@ -1,12 +1,12 @@
-﻿using API.Dtos.CatalogDtos;
+﻿using API.Errors;
 using API.Mapping;
 using API.RequestHelpers;
-using Core.Entities;
-using Core.Interfaces;
-using Core.Specificatios;
-using Core.Specificatios.Params;
+using Application.Dtos.CatalogDtos;
+using Application.Interfaces;
+using Application.Specificatios;
+using Application.Specificatios.Params;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {

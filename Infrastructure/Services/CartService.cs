@@ -1,5 +1,5 @@
-﻿using Core.Entities.Cart;
-using Core.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities.Cart;
 using StackExchange.Redis;
 using System.Text.Json;
 

@@ -1,5 +1,5 @@
-﻿using API.Dtos.FilteringDtos;
-using Core.Entities;
+﻿using Application.Dtos.FilteringDtos;
+using Domain.Entities;
 
 namespace API.Mapping
 {

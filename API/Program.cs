@@ -7,7 +7,8 @@ using Serilog;
 using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using API.Errors;
-using Core.Entities.User;
+using Application;
+using Domain.Entities.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 builder.Services.AddCors(options =>
 {

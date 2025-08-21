@@ -1,6 +1,6 @@
-﻿using API.Dtos.ReviewDtos;
-using API.Helpers;
-using Core.Entities;
+﻿using API.Helpers;
+using Application.Dtos.ReviewDtos;
+using Domain.Entities;
 
 namespace API.Mapping
 {

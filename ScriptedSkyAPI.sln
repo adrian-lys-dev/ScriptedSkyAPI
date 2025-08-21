@@ -5,14 +5,19 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{59262A96-9F49-4989-B89E-22B91F4DB034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{0DB98531-24B8-4880-98A3-C27DF82B4541}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Core\Domain.csproj", "{0DB98531-24B8-4880-98A3-C27DF82B4541}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9F93C71E-14D0-45D3-BE84-D98C8BDAC21A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D44C5717-E031-4FF4-BF10-820C3803C7C5} = {D44C5717-E031-4FF4-BF10-820C3803C7C5}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{D44C5717-E031-4FF4-BF10-820C3803C7C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +37,10 @@ Global
 		{9F93C71E-14D0-45D3-BE84-D98C8BDAC21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F93C71E-14D0-45D3-BE84-D98C8BDAC21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F93C71E-14D0-45D3-BE84-D98C8BDAC21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44C5717-E031-4FF4-BF10-820C3803C7C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44C5717-E031-4FF4-BF10-820C3803C7C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44C5717-E031-4FF4-BF10-820C3803C7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44C5717-E031-4FF4-BF10-820C3803C7C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
-﻿using Core.Entities.Base;
-using Core.Entities.OrderAggregate;
+﻿using Domain.Entities.Base;
+using Domain.Entities.OrderAggregate;
 
-namespace Core.Entities
+namespace Domain.Entities
 {
     public class Book : BaseEntity
     {

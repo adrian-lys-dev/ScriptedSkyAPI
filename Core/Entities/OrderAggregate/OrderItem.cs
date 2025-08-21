@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using Domain.Entities;
+using System.Text.Json.Serialization;
 
-namespace Core.Entities.OrderAggregate
+namespace Domain.Entities.OrderAggregate
 {
     public class OrderItem
     {

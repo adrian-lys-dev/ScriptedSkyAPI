@@ -1,12 +1,12 @@
-﻿using API.Dtos.IdentityDtos;
+﻿using API.Errors;
 using API.Extensions;
 using API.Helpers;
-using Core.Entities.User;
+using Application.Dtos.IdentityDtos;
+using Domain.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Re_ABP_Backend.Errors;
 using System.Security.Claims;
 
 namespace API.Controllers

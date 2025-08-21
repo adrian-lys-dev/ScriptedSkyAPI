@@ -1,5 +1,5 @@
-﻿using Core.Entities.User;
-using Core.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities.User;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Infrastructure.Services;

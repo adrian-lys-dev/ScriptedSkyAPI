@@ -1,6 +1,6 @@
-﻿using Core.Entities.Base;
+﻿using Domain.Entities.Base;
 
-namespace Core.Entities.User
+namespace Domain.Entities.User
 {
     public class Avatar : BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.OrderAggregate
+﻿namespace Domain.Entities.OrderAggregate
 {
     public enum OrderStatus
     {

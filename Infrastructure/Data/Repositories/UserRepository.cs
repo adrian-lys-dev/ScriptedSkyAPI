@@ -1,5 +1,5 @@
-﻿using Core.Entities.User;
-using Core.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories

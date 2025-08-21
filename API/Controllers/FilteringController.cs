@@ -1,7 +1,7 @@
-﻿using API.Dtos.FilteringDtos;
-using API.Mapping;
-using Core.Entities;
-using Core.Interfaces;
+﻿using API.Mapping;
+using Application.Dtos.FilteringDtos;
+using Application.Interfaces;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

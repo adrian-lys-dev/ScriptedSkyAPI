@@ -1,7 +1,7 @@
-﻿using Core.Entities.OrderAggregate;
+﻿using Domain.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 
-namespace Core.Entities.User
+namespace Domain.Entities.User
 {
     public class AppUser : IdentityUser
     {

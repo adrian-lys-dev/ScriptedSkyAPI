@@ -1,6 +1,6 @@
-﻿using Core.Entities.OrderAggregate;
-using Core.Interfaces;
-using Core.Models;
+﻿using Application.Interfaces;
+using Domain.Entities.OrderAggregate;
+using Domain.Models;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

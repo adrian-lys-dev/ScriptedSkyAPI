@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Cart
+﻿namespace Domain.Entities.Cart
 {
     public class CartItem
     {

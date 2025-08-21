@@ -1,7 +1,7 @@
-﻿using Core.Entities.Base;
+﻿using Domain.Entities.Base;
 using System.Text.Json.Serialization;
 
-namespace Core.Entities
+namespace Domain.Entities
 {
     public class Author : BaseEntity
     {

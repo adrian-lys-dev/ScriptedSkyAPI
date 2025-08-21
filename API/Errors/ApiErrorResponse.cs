@@ -1,6 +1,4 @@
-﻿using Re_ABP_Backend.Errors;
-
-namespace API.Errors
+﻿namespace API.Errors
 {
     public class ApiErrorResponse : ApiResponse
     {

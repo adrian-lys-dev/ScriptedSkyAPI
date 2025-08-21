@@ -1,7 +1,6 @@
-﻿using API.Dtos.OrderDtos;
-using API.Helpers;
-using Core.Entities;
-using Core.Entities.OrderAggregate;
+﻿using API.Helpers;
+using Application.Dtos.OrderDtos;
+using Domain.Entities.OrderAggregate;
 
 namespace API.Mapping
 {

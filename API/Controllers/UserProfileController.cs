@@ -1,9 +1,9 @@
-﻿using API.Dtos.UserProfileDtos;
+﻿using API.Errors;
 using API.Extensions;
-using Core.Interfaces;
+using Application.Dtos.UserProfileDtos;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Re_ABP_Backend.Errors;
 
 namespace API.Controllers
 {

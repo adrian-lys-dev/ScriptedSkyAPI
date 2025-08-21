@@ -1,8 +1,8 @@
-﻿using Core.Entities.Base;
-using Core.Entities.User;
+﻿using Domain.Entities.Base;
+using Domain.Entities.User;
 using System.Text.Json.Serialization;
 
-namespace Core.Entities.OrderAggregate
+namespace Domain.Entities.OrderAggregate
 {
     public class Order : BaseEntity
     {

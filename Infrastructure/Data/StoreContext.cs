@@ -1,7 +1,7 @@
-﻿using Core.Entities;
-using Core.Entities.Base;
-using Core.Entities.OrderAggregate;
-using Core.Entities.User;
+﻿using Domain.Entities;
+using Domain.Entities.Base;
+using Domain.Entities.OrderAggregate;
+using Domain.Entities.User;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

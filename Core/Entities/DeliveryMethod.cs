@@ -1,6 +1,6 @@
-﻿using Core.Entities.Base;
+﻿using Domain.Entities.Base;
 
-namespace Core.Entities
+namespace Domain.Entities
 {
     public class DeliveryMethod : BaseEntity
     {

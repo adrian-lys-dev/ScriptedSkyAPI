@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.AdminControllers
+namespace API.Controllers.AdminControllers.AdminCrudControllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,6 +1,7 @@
-﻿using Domain.Entities.Base;
+﻿using Application.Specificatios.Interfaces;
+using Domain.Entities.Base;
 
-namespace Application.Interfaces
+namespace Application.Interfaces.Repositories
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {

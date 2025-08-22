@@ -1,7 +1,6 @@
-﻿using API.Errors;
-using API.Extensions;
+﻿using API.Extensions;
 using Application.Dtos.UserProfileDtos;
-using Application.Interfaces;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,14 +17,9 @@ namespace API.Controllers
             var userId = User.GetUserId();
             logger.LogInformation("Attempting to retrieve stats for user ID: {UserId}", userId);
 
-            var stats = await userService.GetUserStatsAsync(userId);
+            var result = await userService.GetUserStatsAsync(userId);
 
-            if (stats == null)
-                return NotFound(new ApiResponse(404, "User not found"));
-
-            logger.LogInformation("User stats retrieved successfully for user ID: {UserId}", userId);
-
-            return Ok(stats);
+            return result.ToActionResult();
         }
     }
 }

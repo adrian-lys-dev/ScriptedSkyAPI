@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.Interfaces.Services;
 using Domain.Entities.Cart;
 using StackExchange.Redis;
 using System.Text.Json;

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.Cart;
 
-namespace Application.Interfaces
+namespace Application.Interfaces.Services
 {
     public interface ICartService
     {

@@ -1,7 +1,7 @@
 ﻿using API.Errors;
-using API.RequestHelpers;
+using Application.Common;
 using Application.Dtos.CatalogDtos;
-using Application.Interfaces;
+using Application.Interfaces.Repositories;
 using Application.Mapping;
 using Application.Specificatios;
 using Application.Specificatios.Params;

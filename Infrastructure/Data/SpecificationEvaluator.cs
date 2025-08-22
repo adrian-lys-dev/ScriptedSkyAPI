@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.Specificatios.Interfaces;
 using Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 

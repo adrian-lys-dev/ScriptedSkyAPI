@@ -1,5 +1,5 @@
 ﻿using API.Errors;
-using Application.Interfaces;
+using Application.Interfaces.Services;
 using Domain.Entities.Cart;
 using Microsoft.AspNetCore.Mvc;
 

@@ -10,6 +10,8 @@ namespace Application.Specificatios
             AddInclude(p => p.Author);
             AddInclude(p => p.Genre);
             AddInclude(p => p.Publisher);
+
+            EnableSplitQuery();
         }
     }
 }

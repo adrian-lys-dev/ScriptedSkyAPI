@@ -1,11 +1,7 @@
-﻿using API.Errors;
-using API.Extensions;
+﻿using API.Extensions;
 using Application.Dtos.UserProfileDtos;
-using Application.Interfaces.Repositories;
-using Application.Mapping;
-using Domain.Entities.User;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,16 +9,14 @@ namespace API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserAvatarController(SignInManager<AppUser> signInManager, IUnitOfWork unit, ILogger<UserAvatarController> logger) : ControllerBase
+    public class UserAvatarController(IUserAvatarService avatarService, ILogger<UserAvatarController> logger) : ControllerBase
     {
         [HttpGet("available")]
         public async Task<ActionResult<IReadOnlyList<AvatarDto>>> GetAvailableAvatars()
         {
-            var avatars = await unit.Repository<Avatar>().ListAllAsync();
-
-            var result = avatars.Select(AvatarMapping.ToDto).ToList();
-
-            return Ok(result);
+            logger.LogInformation("Fetching available avatars...");
+            var result = await avatarService.GetAvailableAvatarsAsync();
+            return result.ToActionResult();
         }
 
         [HttpPost("update/{avatarId}")]
@@ -32,33 +26,8 @@ namespace API.Controllers
 
             logger.LogInformation("User {UserId} requests to update avatar to {AvatarId}", userId, avatarId);
 
-            var avatar = await unit.Repository<Avatar>().GetByIdAsync(avatarId);
-            if (avatar == null)
-            {
-                logger.LogWarning("Avatar with id {AvatarId} not found", avatarId);
-                return BadRequest(new ApiResponse(400, $"Avatar with id {avatarId} does not exist."));
-            }
-
-            var user = await signInManager.UserManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                logger.LogWarning("User with id {UserId} not found during avatar update", userId);
-                return BadRequest(new ApiResponse(400, "User not found. Please ensure you are authenticated."));
-            }
-
-            user.AvatarId = avatarId;
-            user.Avatar = avatar;
-
-            var result = await signInManager.UserManager.UpdateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                logger.LogError("Failed to update avatar for user {UserId}.", userId);
-                return BadRequest(new ApiResponse(400, "Failed to update avatar."));
-            }
-
-            logger.LogInformation("User {UserId} successfully updated avatar to {AvatarId}", userId, avatarId);
-            return Ok();
+            var result = await avatarService.UpdateAvatarAsync(userId, avatarId);
+            return result.ToActionResult();
         }
     }
 }

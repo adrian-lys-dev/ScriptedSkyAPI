@@ -11,6 +11,7 @@ namespace Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAvatarService, UserAvatarService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IBookService, BookService>();
 
             return services;
         }

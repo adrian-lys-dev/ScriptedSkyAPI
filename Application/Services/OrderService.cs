@@ -22,10 +22,11 @@ namespace Application.Services
             if (user == null)
                 return Result<OrderResponseDto>.Failure(new Error(ErrorType.Unauthorized, "Unauthorized"));
 
-            var cart = await cartService.GetShoppingCartAsync(createOrderDto.CartId);
-            if (cart == null)
+            var cartResult = await cartService.GetShoppingCartAsync(createOrderDto.CartId);
+            if (!cartResult.Success)
                 return Result<OrderResponseDto>.Failure(new Error(ErrorType.BadRequest, "Cart not found"));
 
+            var cart = cartResult.Value!;
             var items = new List<OrderItem>();
             decimal subtotal = 0;
 

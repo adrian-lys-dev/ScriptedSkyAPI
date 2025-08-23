@@ -1,11 +1,12 @@
-﻿using Domain.Entities.Cart;
+﻿using Application.Common.Result;
+using Domain.Entities.Cart;
 
 namespace Application.Interfaces.Services
 {
     public interface ICartService
     {
-        Task<ShoppingCart?> GetShoppingCartAsync(string key);
-        Task<ShoppingCart?> SetShoppingCartAsync(ShoppingCart shoppingCart);
-        Task<bool> DeleteShoppingCartAsync(string key);
+        Task<Result<ShoppingCart>> GetShoppingCartAsync(string key);
+        Task<Result<ShoppingCart>> SetShoppingCartAsync(ShoppingCart shoppingCart);
+        Task<Result> DeleteShoppingCartAsync(string key);
     }
 }

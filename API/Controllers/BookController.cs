@@ -1,94 +1,53 @@
-﻿using API.Errors;
-using API.Mapping;
-using API.RequestHelpers;
+﻿using API.Extensions;
 using Application.Dtos.CatalogDtos;
-using Application.Interfaces;
-using Application.Specificatios;
+using Application.Interfaces.Services;
 using Application.Specificatios.Params;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController(IUnitOfWork unit, ILogger<BookController> logger) : ControllerBase
+    public class BookController(IBookService bookService, ILogger<BookController> logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetBooks([FromQuery] BookSpecParams bookSpecParams)
+        public async Task<ActionResult> GetBooks([FromQuery] BookSpecParams bookSpecParams)
         {
             logger.LogInformation("Fetching books with params: {@Params}", bookSpecParams);
-
-            var spec = new BookCatalogSpecification(bookSpecParams);
-            var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
-            var count = await unit.Repository<Book>().CountSpecAsync(spec);
-            var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
-
-            var pagination = new Pagination<CatalogBookDto>(bookSpecParams.PageIndex, bookSpecParams.PageSize, count, booksDto);
-
-            logger.LogInformation("Fetched {Count} books for page {PageIndex}", booksDto.Count, bookSpecParams.PageIndex);
-
-            return Ok(pagination);
+            var result = await bookService.GetBooksAsync(bookSpecParams);
+            return result.ToActionResult();
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<SingleBookDto>> GetBook(int id)
         {
-            var spec = new SingleBookSpecification(id);
-            var book = await unit.Repository<Book>().GetEntityWithSpec(spec);
-
-            if (book == null)
-            {
-                logger.LogWarning("Book with id {Id} not found at {Path}", id, HttpContext.Request.Path);
-                return NotFound(new ApiResponse(404, "Book not found"));
-            }
-
-            var result = CatalogMapping.MapBookToSingleDto(book);
-            logger.LogInformation("Book with id {Id} retrieved successfully at {Path}", id, HttpContext.Request.Path);
-
-            return result;
+            logger.LogInformation("Fetching book with id: {Id}", id);
+            var result = await bookService.GetBookByIdAsync(id);
+            return result.ToActionResult();
         }
 
         [HttpGet("{id:int}/rating")]
         public async Task<ActionResult<int>> GetBookRating(int id)
         {
-            var book = await unit.Repository<Book>().GetByIdAsync(id);
-
-            if (book == null)
-            {
-                logger.LogWarning("Book with id {Id} not found at {Path}", id, HttpContext.Request.Path);
-                return NotFound(new ApiResponse(404, "Book not found"));
-            }
-
-            logger.LogInformation("Book with id {Id} retrieved successfully at {Path}", id, HttpContext.Request.Path);
-
-            return Ok(book.Rating);
+            logger.LogInformation("Fetching rating for book with id: {Id}", id);
+            var result = await bookService.GetBookRatingAsync(id);
+            return result.ToActionResult();
         }
 
         [HttpGet("rating-top")]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetTopBooks()
         {
             logger.LogInformation("Fetching top rated books");
-
-            var spec = new TopRatedBooksSpecification();
-            var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
-            var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
-
-            logger.LogInformation("Fetched {Count} top rated books", booksDto.Count);
-
-            return Ok(booksDto);
+            var result = await bookService.GetTopRatedBooksAsync();
+            return result.ToActionResult();
         }
 
         [HttpGet("newest")]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetNewestBooks()
         {
             logger.LogInformation("Fetching newest books");
-
-            var spec = new NewestBooksSpecification();
-            var books = await unit.Repository<Book>().ListWithSpecAsync(spec);
-            var booksDto = books.Select(CatalogMapping.MapBookToDto).ToList();
-
-            return Ok(booksDto);
+            var result = await bookService.GetNewestBooksAsync();
+            return result.ToActionResult();
         }
     }
 }

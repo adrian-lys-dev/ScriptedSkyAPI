@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Application.Services;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
 using Domain.Entities.User;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
@@ -34,6 +34,8 @@ namespace Infrastructure
                 return ConnectionMultiplexer.Connect(redisConfiguration);
             });
             services.AddSingleton<ICartService, CartService>();
+            services.AddScoped<IAccountService, AccountService>();
+
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddIdentityCore<AppUser>(options =>

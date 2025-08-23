@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Interfaces.Repositories;
+using Application.Specificatios.Interfaces;
 using Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 

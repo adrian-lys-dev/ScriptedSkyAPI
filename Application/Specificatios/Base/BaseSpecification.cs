@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.Specificatios.Interfaces;
 using System.Linq.Expressions;
 
 namespace Application.Specificatios.Base

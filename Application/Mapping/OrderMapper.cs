@@ -1,8 +1,8 @@
-﻿using API.Helpers;
-using Application.Dtos.OrderDtos;
+﻿using Application.Dtos.OrderDtos;
+using Application.Helpers;
 using Domain.Entities.OrderAggregate;
 
-namespace API.Mapping
+namespace Application.Mapping
 {
     public static class OrderMapper
     {

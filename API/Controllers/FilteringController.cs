@@ -1,61 +1,36 @@
-﻿using API.Mapping;
+﻿using API.Extensions;
 using Application.Dtos.FilteringDtos;
-using Application.Interfaces;
-using Domain.Entities;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FilteringController(IUnitOfWork unit, ILogger<FilteringController> logger) : ControllerBase
+    public class FilteringController(IFilteringService filteringService, ILogger<FilteringController> logger) : ControllerBase
     {
         [HttpGet("genre")]
         public async Task<ActionResult<FilteringDto>> GetFilteringGenres()
         {
             logger.LogInformation("Requested list of genres");
-
-            var genres = await unit.Repository<Genre>().ListAllAsync();
-
-            var genreDtos = genres
-                .Select(FilteringMapping.EntityToFilteringDto)
-                .ToList();
-
-            logger.LogInformation("Returned {Count} genres", genreDtos.Count);
-
-            return Ok(genreDtos);
+            var result = await filteringService.GetGenresAsync();
+            return result.ToActionResult();
         }
 
         [HttpGet("author")]
         public async Task<ActionResult<FilteringDto>> GetFilteringAuthors()
         {
             logger.LogInformation("Requested list of authors");
-
-            var authors = await unit.Repository<Author>().ListAllAsync();
-
-            var authorDtos = authors
-                .Select(FilteringMapping.EntityToFilteringDto)
-                .ToList();
-
-            logger.LogInformation("Returned {Count} authors", authorDtos.Count);
-
-            return Ok(authorDtos);
+            var result = await filteringService.GetAuthorsAsync();
+            return result.ToActionResult();
         }
 
         [HttpGet("publisher")]
         public async Task<ActionResult<FilteringDto>> GetFilteringPublishers()
         {
             logger.LogInformation("Requested list of publishers");
-
-            var publishers = await unit.Repository<Publisher>().ListAllAsync();
-
-            var publisherDtos = publishers
-                .Select(FilteringMapping.EntityToFilteringDto)
-                .ToList();
-
-            logger.LogInformation("Returned {Count} publishers", publisherDtos.Count);
-
-            return Ok(publisherDtos);
+            var result = await filteringService.GetPublishersAsync();
+            return result.ToActionResult();
         }
     }
 }

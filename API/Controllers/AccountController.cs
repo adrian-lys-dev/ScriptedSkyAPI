@@ -1,108 +1,45 @@
-﻿using API.Errors;
-using API.Extensions;
-using API.Helpers;
+﻿using API.Extensions;
 using Application.Dtos.IdentityDtos;
-using Domain.Entities.User;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(SignInManager<AppUser> signInManager, ILogger<AccountController> logger) : ControllerBase
+    public class AccountController(IAccountService accountService, ILogger<AccountController> logger) : ControllerBase
     {
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            var user = await signInManager.UserManager.FindByEmailAsync(loginDto.Email);
-            if (user == null)
-            {
-                return Unauthorized(new ApiResponse(401, "Invalid email or password"));
-            }
-
-            var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            if (!result.Succeeded)
-            {
-                logger.LogWarning("Login failed. Invalid password for: {Email}", loginDto.Email);
-                return Unauthorized(new ApiResponse(401, "Invalid email or password"));
-            }
-
-            await signInManager.SignInAsync(user, isPersistent: false);
-            logger.LogInformation("Login succeeded for {Email}", loginDto.Email);
-
-            return NoContent();
+            logger.LogInformation("Login attempt for email {Email}", loginDto.Email);
+            var result = await accountService.LoginAsync(loginDto);
+            return result.ToActionResult();
         }
-
 
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            var user = new AppUser
-            {
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                Email = registerDto.Email,
-                UserName = registerDto.Email
-            };
-
-            var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
-            await signInManager.UserManager.AddToRoleAsync(user, "User");
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    logger.LogWarning("Registration failed for {Email}. Code: {Code}, Description: {Description}",
-                        registerDto.Email, error.Code, error.Description);
-
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-
-                return ValidationProblem();
-            }
-
-            logger.LogInformation("Registration succeeded for email: {Email}", registerDto.Email);
-            return Ok();
+            logger.LogInformation("Registration attempt for email {Email}", registerDto.Email);
+            var result = await accountService.RegisterAsync(registerDto);
+            return result.ToActionResult();
         }
 
         [Authorize]
         [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
-            logger.LogInformation("User logged out.");
-
-            return NoContent();
+            logger.LogInformation("Logout attempt");
+            var result = await accountService.LogoutAsync();
+            return result.ToActionResult();
         }
 
         [HttpGet("user-info")]
         public async Task<ActionResult> GetUserInfo()
         {
-            if (User.Identity?.IsAuthenticated == false) 
-            {
-                logger.LogInformation("Unauthenticated request to /user-info");
-                return NoContent();
-            }
-
-            var user = await signInManager.UserManager.Users
-                .Include(u => u.Avatar)
-                .FirstOrDefaultAsync(u => u.Email == User.GetEmail());
-
-            logger.LogInformation("User info retrieved for: {Email}", user!.Email);
-
-            return Ok(new
-            {
-                user.Id,
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                Avatar = UrlHelper.BuildImageUrl(user.Avatar.AvatarPath),
-                Roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList()
-            });
+            var result = await accountService.GetUserInfoAsync(User, User.GetEmail());
+            return result.ToActionResult();
         }
 
         [HttpGet]
@@ -114,5 +51,4 @@ namespace API.Controllers
             });
         }
     }
-
 }

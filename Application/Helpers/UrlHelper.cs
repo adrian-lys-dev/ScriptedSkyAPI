@@ -1,14 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace API.Helpers
+﻿namespace Application.Helpers
 {
     public static class UrlHelper
     {
         private static string? _baseUrl;
 
-        public static void Configure(IConfiguration config)
+        public static void Configure(string baseUrl)
         {
-            _baseUrl = config["ApiUrl"] ?? throw new InvalidOperationException("ApiUrl is missing in configuration.");
+            _baseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
         }
 
         public static string BuildImageUrl(string relativePath)

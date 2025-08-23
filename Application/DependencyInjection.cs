@@ -1,5 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Interfaces.Services;
 using Application.Services;
+using Application.Services.Admin;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -9,6 +10,12 @@ namespace Application
         public static IServiceCollection AddApplication(this IServiceCollection services) 
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserAvatarService, UserAvatarService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IFilteringService, FilteringService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IAdminOrderService, AdminOrderService>();
 
             return services;
         }

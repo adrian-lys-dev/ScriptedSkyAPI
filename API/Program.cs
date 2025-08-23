@@ -4,11 +4,11 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using API.Errors;
 using Application;
 using Domain.Entities.User;
+using Application.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,7 +63,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 
-UrlHelper.Configure(builder.Configuration);
+UrlHelper.Configure(builder.Configuration["ApiUrl"]
+    ?? throw new InvalidOperationException("ApiUrl is missing in configuration."));
 
 builder.Host.UseSerilog();
 

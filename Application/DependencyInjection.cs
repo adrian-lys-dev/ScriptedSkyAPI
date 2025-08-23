@@ -13,6 +13,7 @@ namespace Application
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IFilteringService, FilteringService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

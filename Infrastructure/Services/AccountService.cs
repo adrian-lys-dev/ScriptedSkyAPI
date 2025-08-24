@@ -65,22 +65,19 @@ namespace Infrastructure.Services
             return Result.SuccessResult();
         }
 
-        public async Task<Result<UserInfoDto>> GetUserInfoAsync(ClaimsPrincipal user, string userEmail)
+        public async Task<Result<UserInfoDto>> GetUserInfoAsync(ClaimsPrincipal user)
         {
             if (user.Identity?.IsAuthenticated != true)
-            {
-                logger.LogInformation("Unauthenticated request to GetUserInfo");
-                return Result<UserInfoDto>.Failure(new Error(ErrorType.Unauthorized, "User is not authenticated"));
-            }
+                return Result<UserInfoDto>.NoContent();
 
-            if (string.IsNullOrWhiteSpace(userEmail))
-            {
-                return Result<UserInfoDto>.Failure(new Error(ErrorType.NotFound, "User email not found"));
-            }
+            var emailClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+            var email = emailClaim?.Value;
+            if (email == null)
+                return Result<UserInfoDto>.NoContent();
 
             var currentUser = await signInManager.UserManager.Users
                 .Include(u => u.Avatar)
-                .FirstOrDefaultAsync(u => u.Email == userEmail);
+                .FirstOrDefaultAsync(u => u.Email == email);
 
             if (currentUser == null)
             {

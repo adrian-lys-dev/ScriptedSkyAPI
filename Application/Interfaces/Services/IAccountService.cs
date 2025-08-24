@@ -9,6 +9,6 @@ namespace Application.Interfaces.Services
         Task<Result> LoginAsync(LoginDto loginDto);
         Task<Result> RegisterAsync(RegisterDto registerDto);
         Task<Result> LogoutAsync();
-        Task<Result<UserInfoDto>> GetUserInfoAsync(ClaimsPrincipal user, string userEmail);
+        Task<Result<UserInfoDto>> GetUserInfoAsync(ClaimsPrincipal user);
     }
 }

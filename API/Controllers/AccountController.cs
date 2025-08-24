@@ -38,7 +38,7 @@ namespace API.Controllers
         [HttpGet("user-info")]
         public async Task<ActionResult> GetUserInfo()
         {
-            var result = await accountService.GetUserInfoAsync(User, User.GetEmail());
+            var result = await accountService.GetUserInfoAsync(User);
             return result.ToActionResult();
         }
 

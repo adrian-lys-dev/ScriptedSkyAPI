@@ -27,6 +27,7 @@
 
         public static Result<T> SuccessResult(T value) => new(true, value, null);
         public static new Result<T> Failure(Error error) => new(false, default, error);
+        public static Result<T> NoContent() => new(false, default, null);
     }
 
 }

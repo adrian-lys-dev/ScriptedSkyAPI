@@ -11,6 +11,9 @@ namespace API.Extensions
             if (result.Success)
                 return new OkObjectResult(result.Value);
 
+            if (result.Error == null)
+                return new NoContentResult();
+
             return MapError(result.Error!);
         }
 

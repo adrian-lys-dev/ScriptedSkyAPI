@@ -77,7 +77,7 @@ namespace Infrastructure.Data.Repositories
                     Rating = r,
                     Count = reviews.FirstOrDefault(x => x.Rating == r)?.Count ?? 0
                 })
-                .OrderByDescending(x => x.Rating)
+                .OrderBy(x => x.Rating)
                 .ToList();
 
             return allRatings;

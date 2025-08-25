@@ -16,6 +16,7 @@ namespace Application
             services.AddScoped<IFilteringService, FilteringService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IAdminOrderService, AdminOrderService>();
+            services.AddScoped<IDashboardService, DashboardService>();
 
             return services;
         }

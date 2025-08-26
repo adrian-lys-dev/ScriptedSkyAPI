@@ -6,6 +6,7 @@ using Application.Interfaces.Services;
 using Application.Mapping;
 using Application.Specificatios;
 using Application.Specificatios.Params;
+using Domain.Entities;
 using Domain.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
@@ -39,17 +40,46 @@ namespace Application.Services.Admin
 
         public async Task<Result> UpdateOrderStatusAsync(int orderId, OrderStatus status)
         {
-            var order = await unit.Repository<Order>().GetByIdAsync(orderId);
+            var spec = new OrderSpecification(orderId);
+            var order = await unit.Repository<Order>().GetEntityWithSpec(spec);
+
             if (order == null)
                 return Result.Failure(new Error(ErrorType.NotFound, "Order not found"));
 
             order.Status = status;
+
+            if (status == OrderStatus.Done)
+            {
+                var stockResult = await DecreaseBookStockAsync(order);
+                if (!stockResult.Success)
+                    return stockResult;
+            }
+
             unit.Repository<Order>().Update(order);
 
             if (await unit.Complete())
                 return Result.SuccessResult();
 
             return Result.Failure(new Error(ErrorType.ServerError, "Failed to update order status"));
+        }
+
+
+        private async Task<Result> DecreaseBookStockAsync(Order order)
+        {
+            foreach (var item in order.OrderItem)
+            {
+                var book = await unit.Repository<Book>().GetByIdAsync(item.BookId);
+                if (book == null)
+                    return Result.Failure(new Error(ErrorType.NotFound, $"Book with ID {item.BookId} not found"));
+
+                if (book.QuantityInStock < item.Quantity)
+                    return Result.Failure(new Error(ErrorType.BadRequest, $"Not enough stock for book {book.Title}"));
+
+                book.QuantityInStock -= item.Quantity;
+                unit.Repository<Book>().Update(book);
+            }
+
+            return Result.SuccessResult();
         }
     }
 }

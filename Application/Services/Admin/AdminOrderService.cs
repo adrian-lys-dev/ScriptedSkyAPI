@@ -13,6 +13,17 @@ namespace Application.Services.Admin
 {
     public class AdminOrderService(IUnitOfWork unit, ILogger<AdminOrderService> logger) : IAdminOrderService
     {
+        public async Task<Result<OrderResponseDto>> GetOrderByIdAsync(int orderId)
+        {
+            var spec = new OrderSpecification(orderId);
+            var order = await unit.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null)
+                return Result<OrderResponseDto>.Failure(new Error(ErrorType.NotFound, "Order not found"));
+
+            return Result<OrderResponseDto>.SuccessResult(OrderMapper.ToDto(order));
+        }
+
         public async Task<Result<Pagination<OrderResponseDto>>> GetOrdersAsync(PaginationParams paginationParams)
         {
             var spec = new OrderSpecification(paginationParams);

@@ -31,5 +31,14 @@ namespace API.Controllers.AdminControllers
             var result = await adminOrderService.UpdateOrderStatusAsync(orderId, status);
             return result.ToActionResult();
         }
+
+        [HttpGet("get-order/{orderId}")]
+        public async Task<ActionResult<OrderResponseDto>> GetOrder(int orderId)
+        {
+            logger.LogInformation("Admin requested order {OrderId}", orderId);
+
+            var result = await adminOrderService.GetOrderByIdAsync(orderId);
+            return result.ToActionResult();
+        }
     }
 }

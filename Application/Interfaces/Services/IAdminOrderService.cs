@@ -10,5 +10,6 @@ namespace Application.Interfaces.Services
     {
         Task<Result<Pagination<OrderResponseDto>>> GetOrdersAsync(PaginationParams paginationParams);
         Task<Result> UpdateOrderStatusAsync(int orderId, OrderStatus status);
+        Task<Result<OrderResponseDto>> GetOrderByIdAsync(int orderId);
     }
 }

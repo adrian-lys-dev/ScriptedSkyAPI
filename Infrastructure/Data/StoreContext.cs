@@ -53,6 +53,15 @@ namespace Infrastructure.Data
                 }
             }
 
+            builder.Entity<Book>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Genre>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Author>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Publisher>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<DeliveryMethod>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Order>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Review>().ToTable(tb => tb.UseSqlOutputClause(false));
+            builder.Entity<Avatar>().ToTable(tb => tb.UseSqlOutputClause(false));
+
         }
     }
 }

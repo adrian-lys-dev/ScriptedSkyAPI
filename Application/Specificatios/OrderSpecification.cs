@@ -19,6 +19,7 @@ namespace Application.Specificatios
         {
             AddInclude("OrderItem.Book");
             AddInclude(x => x.DeliveryMethod);
+            AddInclude(x => x.User);
             AddOrderByDescending(x => x.CreatedAt);
             ApplyPaging(paginationParams.PageSize * (paginationParams.PageIndex - 1),
                 paginationParams.PageSize);

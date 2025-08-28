@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.OrderDtos;
+using Application.Dtos.AdminOrderDtos;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Mapping;
@@ -14,28 +14,28 @@ namespace Application.Services.Admin
 {
     public class AdminOrderService(IUnitOfWork unit, ILogger<AdminOrderService> logger) : IAdminOrderService
     {
-        public async Task<Result<OrderResponseDto>> GetOrderByIdAsync(int orderId)
+        public async Task<Result<AdminOrderResponseDto>> GetOrderByIdAsync(int orderId)
         {
             var spec = new OrderSpecification(orderId);
             var order = await unit.Repository<Order>().GetEntityWithSpec(spec);
 
             if (order == null)
-                return Result<OrderResponseDto>.Failure(new Error(ErrorType.NotFound, "Order not found"));
+                return Result<AdminOrderResponseDto>.Failure(new Error(ErrorType.NotFound, "Order not found"));
 
-            return Result<OrderResponseDto>.SuccessResult(OrderMapper.ToDto(order));
+            return Result<AdminOrderResponseDto>.SuccessResult(OrderMapper.ToAdminOrderDto(order));
         }
 
-        public async Task<Result<Pagination<OrderResponseDto>>> GetOrdersAsync(PaginationParams paginationParams)
+        public async Task<Result<Pagination<AdminOrderResponseDto>>> GetOrdersAsync(PaginationParams paginationParams)
         {
             var spec = new OrderSpecification(paginationParams);
             var orders = await unit.Repository<Order>().ListWithSpecAsync(spec);
             var count = await unit.Repository<Order>().CountSpecAsync(spec);
 
-            var ordersToReturn = orders.Select(OrderMapper.ToDto).ToList();
-            var pagination = new Pagination<OrderResponseDto>(paginationParams.PageIndex, paginationParams.PageSize, count, ordersToReturn);
+            var ordersToReturn = orders.Select(OrderMapper.ToAdminOrderDto).ToList();
+            var pagination = new Pagination<AdminOrderResponseDto>(paginationParams.PageIndex, paginationParams.PageSize, count, ordersToReturn);
 
             logger.LogInformation("Fetched {Count} orders out of {Total}", ordersToReturn.Count, count);
-            return Result<Pagination<OrderResponseDto>>.SuccessResult(pagination);
+            return Result<Pagination<AdminOrderResponseDto>>.SuccessResult(pagination);
         }
 
         public async Task<Result> UpdateOrderStatusAsync(int orderId, OrderStatus status)

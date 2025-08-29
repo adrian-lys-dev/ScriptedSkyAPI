@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using Application.Dtos.AdminOrderDtos;
 using Application.Dtos.OrderDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
@@ -14,7 +15,7 @@ namespace API.Controllers.AdminControllers
     public class AdminOrderController (IAdminOrderService adminOrderService, ILogger<OrderController> logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrdersForUser([FromQuery] PaginationParams paginationParams)
+        public async Task<ActionResult<IReadOnlyList<AdminOrderResponseDto>>> GetOrders([FromQuery] PaginationParams paginationParams)
         {
             logger.LogInformation("Admin requested list of orders with pagination: PageIndex={PageIndex}, PageSize={PageSize}",
                 paginationParams.PageIndex, paginationParams.PageSize);
@@ -29,6 +30,15 @@ namespace API.Controllers.AdminControllers
             logger.LogInformation("Admin requested to update status of order {OrderId} to {Status}", orderId, status);
 
             var result = await adminOrderService.UpdateOrderStatusAsync(orderId, status);
+            return result.ToActionResult();
+        }
+
+        [HttpGet("get-order/{orderId}")]
+        public async Task<ActionResult<OrderResponseDto>> GetOrder(int orderId)
+        {
+            logger.LogInformation("Admin requested order {OrderId}", orderId);
+
+            var result = await adminOrderService.GetOrderByIdAsync(orderId);
             return result.ToActionResult();
         }
     }

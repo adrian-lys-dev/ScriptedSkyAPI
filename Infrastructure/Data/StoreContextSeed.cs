@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Infrastructure.Data
 {
@@ -182,9 +183,23 @@ namespace Infrastructure.Data
         private static async Task EnsureTriggersExistAsync(StoreContext context, ILogger logger)
         {
             logger.LogInformation("Checking triggers...");
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            var triggerDir = path + @"/Data/SeedData/TriggersSQL";
+            // Get the path to the current assembly (executable file)
+            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            if (string.IsNullOrEmpty(assemblyLocation))
+            {
+                logger.LogError("Cannot determine assembly location.");
+                return;
+            }
+
+            var path = Path.GetDirectoryName(assemblyLocation);
+            if (path == null)
+            {
+                logger.LogError("Cannot determine directory of the assembly.");
+                return;
+            }
+
+            var triggerDir = Path.Combine(path, "Data/SeedData/TriggersSQL");
 
             if (!Directory.Exists(triggerDir))
             {
@@ -192,42 +207,57 @@ namespace Infrastructure.Data
                 return;
             }
 
+            // Take all SQL files in the directory
             var sqlFiles = Directory.GetFiles(triggerDir, "*.sql");
 
             foreach (var file in sqlFiles)
             {
-                var triggerName = Path.GetFileNameWithoutExtension(file);
-                logger.LogInformation("Checking trigger '{TriggerName}'...", triggerName);
+                var fileName = Path.GetFileName(file);
+                logger.LogInformation("Processing SQL file '{FileName}'...", fileName);
 
                 var sqlBody = await File.ReadAllTextAsync(file);
 
-                var wrappedSql = $@"
-                    IF NOT EXISTS (
-                        SELECT * FROM sys.triggers WHERE name = N'{triggerName}'
-                    )
-                    BEGIN
-                        DECLARE @sql NVARCHAR(MAX);
-                        SET @sql = N'{sqlBody.Replace("'", "''")}';
-                        EXEC(@sql);
-                        PRINT 'Trigger {triggerName} created.';
-                    END
-                    ELSE
-                    BEGIN
-                        PRINT 'Trigger {triggerName} already exists.';
-                    END
-                ";
+                // Split the file into separate SQL commands using the GO keyword
+                // (GO is the command separator in SQL Server)
+                var sqlCommands = Regex.Split(sqlBody, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
-                await context.Database.ExecuteSqlRawAsync(wrappedSql);
+                // Process each command separately
+                foreach (var command in sqlCommands)
+                {
+                    var trimmed = command.Trim();
+                    if (string.IsNullOrEmpty(trimmed)) continue; // skip empty
 
-                logger.LogInformation("Processed trigger '{TriggerName}'.", triggerName);
+                    // Find the trigger name using a regular expression
+                    // Search for a string like "CREATE TRIGGERTriggerName"
+                    var match = Regex.Match(trimmed, @"CREATE\s+TRIGGER\s+(\S+)", RegexOptions.IgnoreCase);
+                    if (!match.Success) continue; // skip empty
+
+                    var triggerName = match.Groups[1].Value;
+
+                    // Escape single quotes in SQL so we can use EXEC(N'...')
+                    var escapedCommand = trimmed.Replace("'", "''");
+
+                    var wrappedSql = $@"
+                        IF NOT EXISTS (SELECT * FROM sys.triggers WHERE name = N'{triggerName}')
+                            EXEC(N'{escapedCommand}');
+                        ";
+
+                    await context.Database.ExecuteSqlRawAsync(wrappedSql);
+
+                    logger.LogInformation("Processed trigger '{TriggerName}'.", triggerName);
+                }
+
+                logger.LogInformation("Processed SQL file '{FileName}'.", fileName);
             }
 
             logger.LogInformation("Trigger check completed.");
         }
+
+
     }
 
     /// <summary>
-    /// Catergory looger for StoreContextSeed.
+    /// Category logger for StoreContextSeed.
     /// Used only for grouping logs.
     /// </summary>
     [SuppressMessage("SonarLint", "S2094", Justification = "Marker class for ILogger category")]

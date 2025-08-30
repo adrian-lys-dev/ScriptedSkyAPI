@@ -1,9 +1,11 @@
 ﻿using API.Extensions;
 using Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.AdminControllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DashboardController(IDashboardService dashboardService) : ControllerBase

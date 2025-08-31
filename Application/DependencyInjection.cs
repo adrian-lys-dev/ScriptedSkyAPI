@@ -19,6 +19,7 @@ namespace Application
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IAdminGenreService, AdminGenreService>();
             services.AddScoped<IAdminAuthorService, AdminAuthorService>();
+            services.AddScoped<IAdminPublisherService, AdminPublisherService>();
 
             return services;
         }

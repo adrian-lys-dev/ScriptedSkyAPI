@@ -11,7 +11,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminGenreController(IAdminGenreService adminGenreService, ILogger<OrderController> logger) : ControllerBase
+    public class AdminGenreController(IAdminGenreService adminGenreService, ILogger<AdminGenreController> logger) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<Pagination<GenreDto>>> GetGenres([FromQuery] PaginationParams paginationParams)

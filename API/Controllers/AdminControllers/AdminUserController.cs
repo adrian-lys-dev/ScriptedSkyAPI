@@ -11,7 +11,7 @@ namespace API.Controllers.AdminControllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminUserController(IUserService userService, ILogger<OrderController> logger) : ControllerBase
+    public class AdminUserController(IUserService userService, ILogger<AdminUserController> logger) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<Pagination<UserInfoDto>>> GetUsers([FromQuery] PaginationParams paginationParams)

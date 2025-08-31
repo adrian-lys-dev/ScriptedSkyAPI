@@ -11,10 +11,10 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminAuthorController(IAdminAuthorService adminAuthorService, ILogger<OrderController> logger) : ControllerBase
+    public class AdminAuthorController(IAdminAuthorService adminAuthorService, ILogger<AdminAuthorController> logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<Pagination<AuthorDto>>> GetAuthor([FromQuery] PaginationParams paginationParams)
+        public async Task<ActionResult<Pagination<AuthorDto>>> GetAuthors([FromQuery] PaginationParams paginationParams)
         {
             logger.LogInformation("Admin requested list of authors with pagination: PageIndex={PageIndex}, PageSize={PageSize}",
                 paginationParams.PageIndex, paginationParams.PageSize);
@@ -42,11 +42,11 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAuthor(int id, CreateAuthorDto createAuthorDto)
+        public async Task<IActionResult> UpdateAuthor(int id, CreateAuthorDto updateAuthorDto)
         {
-            logger.LogInformation("Admin requested update of author with Id={Id}, new Name={Name}", id, createAuthorDto.Name);
+            logger.LogInformation("Admin requested update of author with Id={Id}, new Name={Name}", id, updateAuthorDto.Name);
 
-            var result = await adminAuthorService.UpdateAuthorAsync(createAuthorDto, id);
+            var result = await adminAuthorService.UpdateAuthorAsync(updateAuthorDto, id);
             return result.ToActionResult();
         }
 

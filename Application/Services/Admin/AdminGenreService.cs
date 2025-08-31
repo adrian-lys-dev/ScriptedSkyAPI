@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Admin
 {
-    public class AdminGenreService(IUnitOfWork unit, ILogger<AdminOrderService> logger) : IAdminGenreService
+    public class AdminGenreService(IUnitOfWork unit, ILogger<AdminGenreService> logger) : IAdminGenreService
     {
         public async Task<Result<Pagination<GenreDto>>> GetAllGenresAsync(PaginationParams paginationParams)
         {

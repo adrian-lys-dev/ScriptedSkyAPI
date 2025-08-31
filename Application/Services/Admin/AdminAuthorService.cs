@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Admin
 {
-    public class AdminAuthorService(IUnitOfWork unit, ILogger<AdminOrderService> logger) : IAdminAuthorService
+    public class AdminAuthorService(IUnitOfWork unit, ILogger<AdminAuthorService> logger) : IAdminAuthorService
     {
         public async Task<Result<Pagination<AuthorDto>>> GetAllAuthorsAsync(PaginationParams paginationParams)
         {

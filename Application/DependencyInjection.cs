@@ -18,6 +18,7 @@ namespace Application
             services.AddScoped<IAdminOrderService, AdminOrderService>();
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IAdminGenreService, AdminGenreService>();
+            services.AddScoped<IAdminAuthorService, AdminAuthorService>();
 
             return services;
         }

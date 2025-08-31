@@ -16,11 +16,11 @@ namespace Application.Services.Admin
         public async Task<Result<Pagination<GenreDto>>> GetAllGenresAsync(PaginationParams paginationParams)
         {
             var spec = new BaseEntitySpecification<Genre>(paginationParams);
-            var books = await unit.Repository<Genre>().ListWithSpecAsync(spec);
+            var genres = await unit.Repository<Genre>().ListWithSpecAsync(spec);
             var count = await unit.Repository<Genre>().CountSpecAsync(spec);
 
-            var genres = books.Select(GenreMapping.ToDto).ToList();
-            var pagination = new Pagination<GenreDto>(paginationParams.PageIndex, paginationParams.PageSize, count, genres);
+            var genresDto = genres.Select(GenreMapping.ToDto).ToList();
+            var pagination = new Pagination<GenreDto>(paginationParams.PageIndex, paginationParams.PageSize, count, genresDto);
 
             return Result<Pagination<GenreDto>>.SuccessResult(pagination);
         }

@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.GenreDtos;
+using Application.Dtos.AdminDtos.GenreDtos;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Mapping;

@@ -1,4 +1,4 @@
-﻿using Application.Dtos.GenreDtos;
+﻿using Application.Dtos.AdminDtos.GenreDtos;
 using Domain.Entities;
 
 namespace Application.Mapping

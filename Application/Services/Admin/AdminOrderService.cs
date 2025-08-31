@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.AdminOrderDtos;
+using Application.Dtos.AdminDtos.AdminOrderDtos;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Mapping;

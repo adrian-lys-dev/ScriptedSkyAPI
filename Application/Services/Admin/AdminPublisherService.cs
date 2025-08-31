@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.PublisherDtos;
+using Application.Dtos.AdminDtos.PublisherDtos;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Mapping;

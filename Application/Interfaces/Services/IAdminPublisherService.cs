@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.PublisherDtos;
+using Application.Dtos.AdminDtos.PublisherDtos;
 using Application.Specificatios.Params;
 using Domain.Entities;
 

@@ -1,4 +1,4 @@
-﻿using Application.Dtos.PublisherDtos;
+﻿using Application.Dtos.AdminDtos.PublisherDtos;
 using Domain.Entities;
 
 namespace Application.Mapping

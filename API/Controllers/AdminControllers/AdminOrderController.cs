@@ -1,5 +1,5 @@
 ﻿using API.Extensions;
-using Application.Dtos.AdminOrderDtos;
+using Application.Dtos.AdminDtos.AdminOrderDtos;
 using Application.Dtos.OrderDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;

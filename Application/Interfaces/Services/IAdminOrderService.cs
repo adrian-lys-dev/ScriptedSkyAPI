@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Result;
-using Application.Dtos.AdminOrderDtos;
+using Application.Dtos.AdminDtos.AdminOrderDtos;
 using Application.Specificatios.Params;
 using Domain.Entities.OrderAggregate;
 

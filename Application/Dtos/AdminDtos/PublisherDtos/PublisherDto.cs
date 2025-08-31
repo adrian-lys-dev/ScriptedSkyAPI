@@ -1,6 +1,6 @@
-﻿namespace Application.Dtos.GenreDtos
+﻿namespace Application.Dtos.AdminDtos.PublisherDtos
 {
-    public class GenreDto
+    public class PublisherDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

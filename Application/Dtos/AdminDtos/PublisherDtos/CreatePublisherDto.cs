@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Dtos.AuthorDtos
+namespace Application.Dtos.AdminDtos.PublisherDtos
 {
-    public class CreateAuthorDto
+    public class CreatePublisherDto
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 100 characters")]

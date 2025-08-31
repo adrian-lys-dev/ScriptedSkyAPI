@@ -1,6 +1,6 @@
 ﻿using API.Extensions;
 using Application.Common;
-using Application.Dtos.PublisherDtos;
+using Application.Dtos.AdminDtos.PublisherDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
 using Microsoft.AspNetCore.Authorization;

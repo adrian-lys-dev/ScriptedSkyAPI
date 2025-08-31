@@ -20,5 +20,13 @@ namespace Application.Mapping
         {
             return genres.Select(g => g.ToDto()).ToList();
         }
+
+        public static Genre ToEntity(this CreateGenreDto dto)
+        {
+            return new Genre
+            {
+                Name = dto.Name
+            };
+        }
     }
 }

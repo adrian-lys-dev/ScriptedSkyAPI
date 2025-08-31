@@ -2,6 +2,7 @@
 using Application.Common.Result;
 using Application.Dtos.GenreDtos;
 using Application.Specificatios.Params;
+using Domain.Entities;
 
 namespace Application.Interfaces.Services
 {
@@ -9,5 +10,8 @@ namespace Application.Interfaces.Services
     {
         Task<Result<Pagination<GenreDto>>> GetAllGenresAsync(PaginationParams paginationParams);
         Task<Result<GenreDto>> GetGenreByIdAsync(int genreId);
+        Task<Result<Genre>> CreateGenreAsync(CreateGenreDto dto);
+        Task<Result<Genre>> UpdateGenreAsync(CreateGenreDto dto, int id);
+        Task<Result<bool>> DeleteGenreAsync(int id);
     }
 }

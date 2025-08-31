@@ -26,9 +26,38 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GenreDto>> GetGenre(int id)
         {
-            logger.LogInformation("Admin requested genre {id}", id);
+            logger.LogInformation("Admin requested genre {Id}", id);
+
             var result = await adminGenreService.GetGenreByIdAsync(id);
             return result.ToActionResult();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateGenre(CreateGenreDto createGenreDto)
+        {
+            logger.LogInformation("Admin requested creation of genre with Name={Name}", createGenreDto.Name);
+
+            var result = await adminGenreService.CreateGenreAsync(createGenreDto);
+            return result.ToActionResult();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateGenre(int id, CreateGenreDto updateGenreDto)
+        {
+            logger.LogInformation("Admin requested update of genre with Id={Id}, new Name={Name}", id, updateGenreDto.Name);
+
+            var result = await adminGenreService.UpdateGenreAsync(updateGenreDto, id);
+            return result.ToActionResult();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteGenre(int id)
+        {
+            logger.LogInformation("Admin requested deletion of genre with Id={Id}", id);
+
+            var result = await adminGenreService.DeleteGenreAsync(id);
+            return result.ToActionResult();
+        }
+
     }
 }

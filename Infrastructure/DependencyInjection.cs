@@ -35,6 +35,7 @@ namespace Infrastructure
             });
             services.AddSingleton<ICartService, CartService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();

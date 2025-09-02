@@ -48,6 +48,46 @@ namespace Infrastructure.Config
             builder.Property(p => p.ISBN)
                 .IsRequired()
                 .HasMaxLength(13);
+
+            builder
+                .HasMany(b => b.Genre)
+                .WithMany(g => g.Book)
+                .UsingEntity<Dictionary<string, object>>(
+                    "BookGenre",
+                    j => j
+                        .HasOne<Genre>()
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict), // it is impossible to delete a genre if there are books
+                    j => j
+                        .HasOne<Book>()
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)   // when the book is deleted, the connections are deleted
+                );
+
+            builder
+                .HasMany(b => b.Author)
+                .WithMany(g => g.Book)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AuthorBook",
+                    j => j
+                        .HasOne<Author>()
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<Book>()
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                );
+
+            builder
+                .HasMany(b => b.Reviews)
+                .WithOne(r => r.Book)
+                .HasForeignKey(r => r.BookId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

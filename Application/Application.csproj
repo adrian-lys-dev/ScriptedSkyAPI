@@ -17,5 +17,9 @@
   <ItemGroup>
     <Folder Include="Dtos\AdminDtos\BookDtos\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
 </Project>

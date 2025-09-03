@@ -84,6 +84,17 @@ namespace Application.Services.Admin
                 return Result<bool>.Failure(new Error(ErrorType.NotFound, "Publisher not found"));
             }
 
+            var spec = new BooksWithPublisherSpecification(id);
+            var count = await unit.Repository<Book>().CountSpecAsync(spec);
+
+            if (count > 0)
+            {
+                logger.LogWarning("Cannot delete publisher Id={Id}, it is used in {Count} books", id, count);
+                return Result<bool>.Failure(
+                    new Error(ErrorType.BadRequest, $"Cannot delete publisher because it is used in {count} books")
+                );
+            }
+
             unit.Repository<Publisher>().Delete(publisher);
 
             if (await unit.Complete())

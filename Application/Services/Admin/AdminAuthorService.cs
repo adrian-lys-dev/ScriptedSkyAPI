@@ -85,6 +85,17 @@ namespace Application.Services.Admin
                 return Result<bool>.Failure(new Error(ErrorType.NotFound, "Author not found"));
             }
 
+            var spec = new BooksWithAuthorSpecification(id);
+            var count = await unit.Repository<Book>().CountSpecAsync(spec);
+
+            if (count > 0)
+            {
+                logger.LogWarning("Cannot delete author Id={Id}, it is used in {Count} books", id, count);
+                return Result<bool>.Failure(
+                    new Error(ErrorType.BadRequest, $"Cannot delete author because it is used in {count} books")
+                );
+            }
+
             unit.Repository<Author>().Delete(author);
 
             if (await unit.Complete())

@@ -85,6 +85,17 @@ namespace Application.Services.Admin
                 return Result<bool>.Failure(new Error(ErrorType.NotFound, "Genre not found"));
             }
 
+            var spec = new BooksWithGenreSpecification(id);
+            var count = await unit.Repository<Book>().CountSpecAsync(spec);
+
+            if (count > 0)
+            {
+                logger.LogWarning("Cannot delete genre Id={Id}, it is used in {Count} books", id, count);
+                return Result<bool>.Failure(
+                    new Error(ErrorType.BadRequest, $"Cannot delete genre because it is used in {count} books")
+                );
+            }
+
             unit.Repository<Genre>().Delete(genre);
 
             if (await unit.Complete())

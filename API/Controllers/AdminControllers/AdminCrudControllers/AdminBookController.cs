@@ -3,6 +3,7 @@ using Application.Common;
 using Application.Dtos.BookDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,10 +33,18 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBook([FromForm] CreateBookDto createBookDto)
+        public async Task<ActionResult<Book>> CreateBook([FromForm] CreateBookDto createBookDto)
         {
             logger.LogInformation("Attempting to create book: Title={Title}", createBookDto.Title);
             var result = await adminBookService.CreateBookAsync(createBookDto);
+            return result.ToActionResult();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Book>> UpdateBook([FromForm] CreateBookDto createBookDto, int id)
+        {
+            logger.LogInformation("Attempting to update book: Title={Title}", createBookDto.Title);
+            var result = await adminBookService.UpdateBookAsync(id, createBookDto);
             return result.ToActionResult();
         }
 

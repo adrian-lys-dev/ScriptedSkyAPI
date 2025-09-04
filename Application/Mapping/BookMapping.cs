@@ -77,5 +77,35 @@ namespace Application.Mapping
             };
         }
 
+        public static void UpdateEntity(Book book, CreateBookDto dto, Author[] authors, Genre[] genres, Publisher publisher, string? pictureUrl = null)
+        {
+            book.Title = dto.Title;
+            book.Description = dto.Description;
+            book.ReleaseYear = dto.ReleaseYear;
+            book.PageNumber = dto.PageNumber;
+            book.Price = dto.Price;
+            book.QuantityInStock = dto.QuantityInStock;
+            book.Publisher = publisher;
+
+            var authorsToRemove = book.Author.Where(a => !authors.Contains(a)).ToList();
+            foreach (var a in authorsToRemove)
+                book.Author.Remove(a);
+
+            var authorsToAdd = authors.Where(a => !book.Author.Contains(a));
+            foreach (var a in authorsToAdd)
+                book.Author.Add(a);
+
+            var genresToRemove = book.Genre.Where(g => !genres.Contains(g)).ToList();
+            foreach (var g in genresToRemove)
+                book.Genre.Remove(g);
+
+            var genresToAdd = genres.Where(g => !book.Genre.Contains(g));
+            foreach (var g in genresToAdd)
+                book.Genre.Add(g);
+
+            if (!string.IsNullOrEmpty(pictureUrl))
+                book.PictureURL = pictureUrl;
+        }
+
     }
 }

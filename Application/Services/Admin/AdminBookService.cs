@@ -45,9 +45,13 @@ namespace Application.Services.Admin
             if (existBook != null)
                 return Result<Book>.Failure(new Error(ErrorType.BadRequest, "There is a book with such a name already"));
 
+            if (createBookDto.Picture == null)
+                return Result<Book>.Failure(new Error(ErrorType.BadRequest, "Picture required"));
+
             var relationsResult = await GetBookRelationsAsync(createBookDto);
 
             var (authors, genres, publisher) = relationsResult.Value;
+
             var pictureUrl = await imageService.SaveImageAsync(createBookDto.Picture);
 
             if (!pictureUrl.Success)
@@ -59,6 +63,46 @@ namespace Application.Services.Admin
 
             if (!await unit.Complete())
                 return Result<Book>.Failure(new Error(ErrorType.BadRequest, "Problem creating the book"));
+
+            return Result<Book>.SuccessResult(book);
+        }
+
+        public async Task<Result<Book>> UpdateBookAsync(int bookId, CreateBookDto updateDto)
+        {
+            var bookSpec = new SingleBookSpecification(bookId);
+            var book = await unit.Repository<Book>().GetEntityWithSpec(bookSpec);
+
+            if (book == null)
+                return Result<Book>.Failure(new Error(ErrorType.NotFound, "Book not found"));
+
+            var titleSpec = new BookSpecification(updateDto.Title);
+            var existingBook = await unit.Repository<Book>().GetEntityWithSpec(titleSpec);
+            if (existingBook != null && existingBook.Id != bookId)
+            {
+                return Result<Book>.Failure(new Error(ErrorType.BadRequest, "Another book with the same title already exists"));
+            }
+
+            var relationsResult = await GetBookRelationsAsync(updateDto);
+            if (!relationsResult.Success)
+                return Result<Book>.Failure(relationsResult.Error!);
+
+            var (authors, genres, publisher) = relationsResult.Value;
+
+            if (updateDto.Picture != null)
+            {
+                var pictureUrl = await imageService.SaveImageAsync(updateDto.Picture);
+                if (!pictureUrl.Success)
+                    return Result<Book>.Failure(pictureUrl.Error!);
+
+                book.PictureURL = pictureUrl.Value!;
+            }
+
+            BookMapping.UpdateEntity(book, updateDto, authors, genres, publisher);
+
+            unit.Repository<Book>().Update(book);
+
+            if (!await unit.Complete())
+                return Result<Book>.Failure(new Error(ErrorType.BadRequest, "Problem updating the book"));
 
             return Result<Book>.SuccessResult(book);
         }

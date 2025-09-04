@@ -11,6 +11,7 @@ namespace Application.Interfaces.Services
         Task<Result<Pagination<BookDto>>> GetAllBooksAsync(PaginationParams paginationParams);
         Task<Result<BookDetailsDto>> GetBookByIdAsync(int bookId);
         Task<Result<Book>> CreateBookAsync(CreateBookDto createBookDto);
+        Task<Result<Book>> UpdateBookAsync(int bookId, CreateBookDto updateDto);
         Task<Result> DeleteBookAsync(int bookId);
     }
 }

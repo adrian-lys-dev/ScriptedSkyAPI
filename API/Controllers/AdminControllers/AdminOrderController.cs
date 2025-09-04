@@ -1,5 +1,5 @@
 ﻿using API.Extensions;
-using Application.Dtos.AdminOrderDtos;
+using Application.Dtos.AdminDtos.AdminOrderDtos;
 using Application.Dtos.OrderDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
@@ -12,7 +12,7 @@ namespace API.Controllers.AdminControllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminOrderController (IAdminOrderService adminOrderService, ILogger<OrderController> logger) : ControllerBase
+    public class AdminOrderController (IAdminOrderService adminOrderService, ILogger<AdminOrderController> logger) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AdminOrderResponseDto>>> GetOrders([FromQuery] PaginationParams paginationParams)

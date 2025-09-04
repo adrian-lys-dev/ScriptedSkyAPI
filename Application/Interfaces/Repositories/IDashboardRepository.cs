@@ -1,4 +1,4 @@
-﻿using Application.Dtos.DashboardDtos;
+﻿using Application.Dtos.AdminDtos.DashboardDtos;
 
 namespace Application.Interfaces.Repositories
 {

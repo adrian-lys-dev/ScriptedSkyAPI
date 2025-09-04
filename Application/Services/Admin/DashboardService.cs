@@ -1,5 +1,5 @@
 ﻿using Application.Common.Result;
-using Application.Dtos.DashboardDtos;
+using Application.Dtos.AdminDtos.DashboardDtos;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using System.Globalization;

@@ -1,4 +1,4 @@
-﻿using Application.Dtos.DashboardDtos;
+﻿using Application.Dtos.AdminDtos.DashboardDtos;
 using Application.Interfaces.Repositories;
 using Domain.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 ﻿using Application.Dtos.OrderDtos;
 
-namespace Application.Dtos.AdminOrderDtos
+namespace Application.Dtos.AdminDtos.AdminOrderDtos
 {
     public class AdminOrderResponseDto
     {

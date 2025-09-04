@@ -1,4 +1,4 @@
-﻿namespace Application.Dtos.DashboardDtos
+﻿namespace Application.Dtos.AdminDtos.DashboardDtos
 {
     public class RatingCountDto
     {

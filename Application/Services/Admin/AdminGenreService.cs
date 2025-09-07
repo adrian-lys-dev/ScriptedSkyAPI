@@ -39,6 +39,12 @@ namespace Application.Services.Admin
 
         public async Task<Result<Genre>> CreateGenreAsync(CreateGenreDto dto)
         {
+            var spec = new GenreByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Genre>().GetEntityWithSpec(spec);
+
+            if(existing != null)
+                return Result<Genre>.Failure(new Error(ErrorType.BadRequest, "There is a genre with such a name already"));
+
             var genre = GenreMapping.ToEntity(dto);
 
             unit.Repository<Genre>().Add(genre);
@@ -61,6 +67,11 @@ namespace Application.Services.Admin
                 logger.LogWarning("Genre with Id={Id} not found for update", id);
                 return Result<Genre>.Failure(new Error(ErrorType.NotFound, "Genre not found"));
             }
+            var spec = new GenreByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Genre>().GetEntityWithSpec(spec);
+
+            if (existing != null)
+                return Result<Genre>.Failure(new Error(ErrorType.BadRequest, "There is a genre with such a name already"));
 
             genre.Name = dto.Name;
 

@@ -13,7 +13,7 @@ namespace Application.Specificatios
             AddInclude(p => p.Publisher);
 
             ApplyPaging(paginationParams.PageSize * (paginationParams.PageIndex - 1), paginationParams.PageSize);
-            AddOrderBy(p => p.Id);
+            AddOrderByDescending(p => p.CreatedAt);
             EnableSplitQuery();
         }
 

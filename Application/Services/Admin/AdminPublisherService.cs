@@ -39,6 +39,12 @@ namespace Application.Services.Admin
 
         public async Task<Result<Publisher>> CreatePublisherAsync(CreatePublisherDto dto)
         {
+            var spec = new PublisherByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Publisher>().GetEntityWithSpec(spec);
+
+            if (existing != null)
+                return Result<Publisher>.Failure(new Error(ErrorType.BadRequest, "There is a publisher with such a name already"));
+
             var publisher = PublisherMapping.ToEntity(dto);
 
             unit.Repository<Publisher>().Add(publisher);
@@ -61,6 +67,12 @@ namespace Application.Services.Admin
                 logger.LogWarning("Publisher with Id={Id} not found for update", id);
                 return Result<Publisher>.Failure(new Error(ErrorType.NotFound, "Publisher not found"));
             }
+
+            var spec = new PublisherByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Publisher>().GetEntityWithSpec(spec);
+
+            if (existing != null)
+                return Result<Publisher>.Failure(new Error(ErrorType.BadRequest, "There is a publisher with such a name already"));
 
             publisher.Name = dto.Name;
 

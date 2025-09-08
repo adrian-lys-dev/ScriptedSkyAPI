@@ -19,7 +19,7 @@ namespace Application.Mapping
                 QuantityInStock = book.QuantityInStock,
                 AuthorNames = string.Join(", ", book.Author.Select(a => a.Name)),
                 GenreNames = string.Join(", ", book.Genre.Select(a => a.Name)),
-                PubliherName = book.Publisher.Name,
+                PublisherName = book.Publisher.Name,
                 CreatedAt = book.CreatedAt,
                 UpdatedAt = book.UpdatedAt
             };

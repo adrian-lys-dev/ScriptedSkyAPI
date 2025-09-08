@@ -9,7 +9,7 @@ namespace Application.Specificatios
     {
         public BaseEntitySpecification(PaginationParams paginationParams) 
         {
-            AddOrderBy(x => x.Id);
+            AddOrderByDescending(x => x.CreatedAt);
             ApplyPaging(paginationParams.PageSize * (paginationParams.PageIndex - 1),
                 paginationParams.PageSize);
         }
@@ -33,6 +33,24 @@ namespace Application.Specificatios
     {
         public BooksWithPublisherSpecification(int publisherId)
             : base(b => b.Publisher.Id == publisherId) { }
+    }
+
+    public class GenreByNameSpecification : BaseSpecification<Genre>
+    {
+        public GenreByNameSpecification(string name)
+            : base(g => g.Name.ToLower() == name.ToLower()) { }
+    }
+
+    public class AuthorByNameSpecification : BaseSpecification<Author>
+    {
+        public AuthorByNameSpecification(string name)
+            : base(a => a.Name.ToLower() == name.ToLower()) { }
+    }
+
+    public class PublisherByNameSpecification : BaseSpecification<Publisher>
+    {
+        public PublisherByNameSpecification(string name)
+            : base(p => p.Name.ToLower() == name.ToLower()) { }
     }
 
 }

@@ -10,7 +10,7 @@
         public int QuantityInStock { get; set; }
         public required string AuthorNames { get; set; }
         public required string GenreNames { get; set; }
-        public required string PubliherName { get; set; }
+        public required string PublisherName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

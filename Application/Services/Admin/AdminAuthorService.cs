@@ -39,6 +39,12 @@ namespace Application.Services.Admin
 
         public async Task<Result<Author>> CreateAuthorAsync(CreateAuthorDto dto)
         {
+            var spec = new AuthorByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Author>().GetEntityWithSpec(spec);
+
+            if (existing != null)
+                return Result<Author>.Failure(new Error(ErrorType.BadRequest, "There is a author with such a name already"));
+
             var author = AuthorMapping.ToEntity(dto);
 
             unit.Repository<Author>().Add(author);
@@ -61,6 +67,12 @@ namespace Application.Services.Admin
                 logger.LogWarning("Author with Id={Id} not found for update", id);
                 return Result<Author>.Failure(new Error(ErrorType.NotFound, "Author not found"));
             }
+
+            var spec = new AuthorByNameSpecification(dto.Name);
+            var existing = await unit.Repository<Author>().GetEntityWithSpec(spec);
+
+            if (existing != null)
+                return Result<Author>.Failure(new Error(ErrorType.BadRequest, "There is a author with such a name already"));
 
             author.Name = dto.Name;
 

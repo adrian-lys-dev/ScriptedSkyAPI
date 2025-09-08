@@ -88,6 +88,12 @@ namespace Infrastructure.Config
                 .WithOne(r => r.Book)
                 .HasForeignKey(r => r.BookId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasMany(b => b.OrderItems)
+                .WithOne(oi => oi.Book)
+                .HasForeignKey(oi => oi.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

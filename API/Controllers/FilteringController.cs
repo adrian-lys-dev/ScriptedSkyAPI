@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Dtos.FilteringDtos;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace API.Controllers
     [ApiController]
     public class FilteringController(IFilteringService filteringService, ILogger<FilteringController> logger) : ControllerBase
     {
+        [Cache(10000)]
         [HttpGet("genre")]
         public async Task<ActionResult<FilteringDto>> GetFilteringGenres()
         {
@@ -17,6 +19,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(10000)]
         [HttpGet("author")]
         public async Task<ActionResult<FilteringDto>> GetFilteringAuthors()
         {
@@ -25,6 +28,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(10000)]
         [HttpGet("publisher")]
         public async Task<ActionResult<FilteringDto>> GetFilteringPublishers()
         {

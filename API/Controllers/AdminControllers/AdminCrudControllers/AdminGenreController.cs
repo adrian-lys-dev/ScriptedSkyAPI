@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Common;
 using Application.Dtos.AdminDtos.GenreDtos;
 using Application.Interfaces.Services;
@@ -13,6 +14,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [ApiController]
     public class AdminGenreController(IAdminGenreService adminGenreService, ILogger<AdminGenreController> logger) : ControllerBase
     {
+        [Cache(10000)]
         [HttpGet]
         public async Task<ActionResult<Pagination<GenreDto>>> GetGenres([FromQuery] PaginationParams paginationParams)
         {
@@ -23,6 +25,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [Cache(10000)]
         [HttpGet("{id}")]
         public async Task<ActionResult<GenreDto>> GetGenre(int id)
         {
@@ -32,6 +35,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/admingenre", "/api/filtering/genre")]
         [HttpPost]
         public async Task<IActionResult> CreateGenre(CreateGenreDto createGenreDto)
         {
@@ -41,6 +45,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/admingenre", "/api/filtering/genre")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(int id, CreateGenreDto updateGenreDto)
         {
@@ -50,6 +55,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/admingenre", "/api/filtering/genre")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {
@@ -58,6 +64,5 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             var result = await adminGenreService.DeleteGenreAsync(id);
             return result.ToActionResult();
         }
-
     }
 }

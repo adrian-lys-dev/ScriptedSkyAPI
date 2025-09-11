@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Common;
 using Application.Dtos.AdminDtos.PublisherDtos;
 using Application.Interfaces.Services;
@@ -13,6 +14,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [ApiController]
     public class AdminPublisherController(IAdminPublisherService adminPublisherService, ILogger<AdminPublisherController> logger) : ControllerBase
     {
+        [Cache(10000)]
         [HttpGet]
         public async Task<ActionResult<Pagination<PublisherDto>>> GetPublishers([FromQuery] PaginationParams paginationParams)
         {
@@ -23,6 +25,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [Cache(10000)]
         [HttpGet("{id}")]
         public async Task<ActionResult<PublisherDto>> GetPublisher(int id)
         {
@@ -32,6 +35,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminpublisher", "/api/filtering/publisher")]
         [HttpPost]
         public async Task<IActionResult> CreatePublisher(CreatePublisherDto createPublisherDto)
         {
@@ -41,6 +45,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminpublisher", "/api/filtering/publisher")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePublisher(int id, CreatePublisherDto createPublisherDto)
         {
@@ -50,6 +55,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminpublisher", "/api/filtering/publisher")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePublisher(int id)
         {

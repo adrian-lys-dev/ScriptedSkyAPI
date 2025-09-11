@@ -17,6 +17,12 @@ namespace Application.Specificatios
         public BaseEntitySpecification(int id): base(x => x.Id == id) {}
     }
 
+
+    public class BooksWithOrderSpecification : BaseSpecification<Book>
+    {
+        public BooksWithOrderSpecification(int bookId) 
+            : base(b => b.Id == bookId && b.OrderItems.Any()) { }
+    }
     public class BooksWithGenreSpecification : BaseSpecification<Book>
     {
         public BooksWithGenreSpecification(int genreId)

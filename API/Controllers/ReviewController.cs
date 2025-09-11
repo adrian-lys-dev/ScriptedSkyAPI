@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Dtos.ReviewDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
@@ -12,6 +13,7 @@ namespace API.Controllers
     public class ReviewController(ILogger<BookController> logger, IReviewService reviewService) : ControllerBase
     {
         [Authorize(Roles = "Admin")]
+        [Cache(600)]
         [HttpGet]
         public async Task<IActionResult> GetReviews([FromQuery] PaginationParams paginationParams)
         {
@@ -20,6 +22,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(600)]
         [HttpGet("book/{id:int}")]
         public async Task<IActionResult> GetBookReviews([FromQuery] PaginationParams paginationParams, int id)
         {
@@ -28,7 +31,9 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+
         [Authorize]
+        [InvalidateCache("api/adminbook", "api/book", "api/review")]
         [HttpPost]
         public async Task<IActionResult> CreateReview([FromBody] ReviewDto reviewdto)
         {
@@ -39,6 +44,7 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [InvalidateCache("api/adminbook", "api/book", "api/review")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDto dto)
         {
@@ -49,6 +55,7 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [InvalidateCache("api/adminbook", "api/book", "api/review")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {

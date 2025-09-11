@@ -34,8 +34,10 @@ namespace Infrastructure
                 return ConnectionMultiplexer.Connect(redisConfiguration);
             });
             services.AddSingleton<ICartService, CartService>();
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IImageService, ImageService>();
+
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();

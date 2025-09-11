@@ -113,6 +113,17 @@ namespace Application.Services.Admin
             if (book == null)
                 return Result.Failure(new Error(ErrorType.NotFound, "Book not found"));
 
+            var spec = new BooksWithOrderSpecification(bookId);
+            var count = await unit.Repository<Book>().CountSpecAsync(spec);
+
+            if (count > 0)
+            {
+                logger.LogWarning("Cannot delete book Id={Id}, it is used in orders", bookId);
+                return Result<bool>.Failure(
+                    new Error(ErrorType.BadRequest, $"Cannot delete book Id={bookId}, it is used in orders")
+                );
+            }
+
             unit.Repository<Book>().Delete(book);
 
             if (!await unit.Complete())

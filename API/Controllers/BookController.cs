@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Dtos.CatalogDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
@@ -10,6 +11,7 @@ namespace API.Controllers
     [ApiController]
     public class BookController(IBookService bookService, ILogger<BookController> logger) : ControllerBase
     {
+        [Cache(600)]
         [HttpGet]
         public async Task<ActionResult> GetBooks([FromQuery] BookSpecParams bookSpecParams)
         {
@@ -18,6 +20,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(600)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<SingleBookDto>> GetBook(int id)
         {
@@ -34,6 +37,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(600)]
         [HttpGet("rating-top")]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetTopBooks()
         {
@@ -42,6 +46,7 @@ namespace API.Controllers
             return result.ToActionResult();
         }
 
+        [Cache(600)]
         [HttpGet("newest")]
         public async Task<ActionResult<IReadOnlyList<CatalogBookDto>>> GetNewestBooks()
         {

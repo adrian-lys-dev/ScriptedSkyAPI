@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Common;
 using Application.Dtos.BookDtos;
 using Application.Interfaces.Services;
@@ -14,6 +15,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [ApiController]
     public class AdminBookController(IAdminBookService adminBookService, ILogger<AdminBookController> logger) : ControllerBase
     {
+        [Cache(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<BookDto>>> GetBooks([FromQuery] PaginationParams paginationParams)
         {
@@ -24,6 +26,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [Cache(600)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<BookDetailsDto>> GetBook(int id)
         {
@@ -32,6 +35,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminbook", "api/book")]
         [HttpPost]
         public async Task<ActionResult<Book>> CreateBook([FromForm] CreateBookDto createBookDto)
         {
@@ -40,6 +44,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminbook", "api/book")]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<Book>> UpdateBook([FromForm] CreateBookDto createBookDto, int id)
         {
@@ -48,6 +53,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminbook", "api/book")]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteBook(int id)
         {

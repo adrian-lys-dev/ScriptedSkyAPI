@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Common;
 using Application.Dtos.AdminDtos.AuthorDtos;
 using Application.Interfaces.Services;
@@ -13,6 +14,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
     [ApiController]
     public class AdminAuthorController(IAdminAuthorService adminAuthorService, ILogger<AdminAuthorController> logger) : ControllerBase
     {
+        [Cache(10000)]
         [HttpGet]
         public async Task<ActionResult<Pagination<AuthorDto>>> GetAuthors([FromQuery] PaginationParams paginationParams)
         {
@@ -23,6 +25,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [Cache(10000)]
         [HttpGet("{id}")]
         public async Task<ActionResult<AuthorDto>> GetAuthor(int id)
         {
@@ -32,6 +35,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminauthor", "/api/filtering/author")]
         [HttpPost]
         public async Task<IActionResult> CreateAuthor(CreateAuthorDto createAuthorDto)
         {
@@ -41,6 +45,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminauthor", "/api/filtering/author")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, CreateAuthorDto updateAuthorDto)
         {
@@ -50,6 +55,7 @@ namespace API.Controllers.AdminControllers.AdminCrudControllers
             return result.ToActionResult();
         }
 
+        [InvalidateCache("api/adminauthor", "/api/filtering/author")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {

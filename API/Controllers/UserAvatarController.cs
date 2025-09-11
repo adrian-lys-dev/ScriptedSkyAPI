@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Dtos.UserProfileDtos;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ namespace API.Controllers
     [ApiController]
     public class UserAvatarController(IUserAvatarService avatarService, ILogger<UserAvatarController> logger) : ControllerBase
     {
+        [Cache(10000)]
         [HttpGet("available")]
         public async Task<ActionResult<IReadOnlyList<AvatarDto>>> GetAvailableAvatars()
         {

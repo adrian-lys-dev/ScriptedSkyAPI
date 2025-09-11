@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.RequestHelpers;
 using Application.Dtos.OrderDtos;
 using Application.Interfaces.Services;
 using Application.Specificatios.Params;
@@ -48,6 +49,7 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [Cache(10000)]
         [HttpGet("delivery-methods")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {
